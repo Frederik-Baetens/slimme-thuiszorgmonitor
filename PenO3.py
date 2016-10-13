@@ -80,7 +80,7 @@ def encrypt(list):    #Siebe, Ruben, moet niet perse een lijst zijn, zal waarsch
 
 
 def reform(list)
-        return message = [(12 cijfers) * 3, 92 0'en]  ' \
+    return message = [(12 cijfers) * 3, 92 0'en]  ' \
 
 
 def read_and_send():
