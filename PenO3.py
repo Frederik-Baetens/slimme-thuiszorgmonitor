@@ -84,3 +84,5 @@ def read_and_send():
 
 tim = pyb.Timer(4, freq=FREQ)
 tim.callback(read_and_send())
+
+#test test
