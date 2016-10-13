@@ -79,6 +79,10 @@ def encrypt(list):    #Siebe, Ruben, moet niet perse een lijst zijn, zal waarsch
     return encrypted_message
 
 
+def reform(list)
+        return message = [(12 cijfers) * 3, 92 0'en]  ' \
+
+
 def read_and_send():
 
     value_ecg = ecg_pin.read()
@@ -87,11 +91,8 @@ def read_and_send():
     switch_leds(current_led, next_led)
 
     list = [value_ecg, value_po, value_pressure]
-
-    def reform(list)
-        return message = [(12 cijfers) * 3, 92 0'en]  ' \
-
-
+    
+    message = reform(list)
     encrypted_message = encrypt(message)
 
     send(message) #Jarno
