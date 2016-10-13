@@ -30,22 +30,41 @@
 # adc.read_timed(buf, tim)            # sample 100 values, taking 10s
 
 
+##INITIALIZATIE
+
+#Imports
 import pyb
 
-PO_PIN_NB = ''
-ECG_PIN_NB = ''
-PRESSURE_PIN_NB = ''
-FREQ = 128
+#Frequentie
+FREQ = 128              #frequentie waaraan gemeten wordt
 
-PO_PIN = pyb.ADC(PO_PIN_NB)
-ECG_PIN = pyb.ADC(ECG_PIN_NB)
-PRESSURE_PIN = pyb.ADC(PRESSURE_PIN_NB)
+#Timer
+#mogelijke code voor timer, moet getest worden
+tim = pyb.Timer(4, freq=FREQ)
+tim.callback(read_and_send())
 
-PIN_RED_LED = pyb.Pin('X1', Pin.OUT_PP)            #X1 (naam van de pin) aanpassen!
-PIN_INFRARED_LED = pyb.PIN('X2', Pin.OUT_PP)       #X2 (naam van de pin) aanpassen!
+#Pin nummers
+PO_PIN_NB = ''              #nummer van de pulse-oximeter pin
+ECG_PIN_NB = ''             #nummer van de electrocardiogram pin
+PRESSURE_PIN_NB = ''        #nummer van de druksensor pin
+PIN_RED_LED_NB = 'X1'       #X1: naam van de pin, naam van deze pin moet nog aangepast worden
+PIN_INFRARED_LED_NB = 'X2'  #X2: naam van de pin, naam van deze pin moet nog aangepast worden
 
-current_led = PIN_RED_LED
-next_led = PIN_INFRARED_LED
+#Naam geven aan de pinnen en sensoren 
+po_pin = pyb.ADC(PO_PIN_NB)
+ecg_pin = pyb.ADC(ECG_PIN_NB)
+pressure_pin = pyb.ADC(PRESSURE_PIN_NB)
+pin_red_led = pyb.Pin(PIN_RED_LED_NB, Pin.OUT_PP)           #X1 (naam van de pin) aanpassen!
+pin_infrared_led = pyb.Pin(PIN_INFRARED_LED_NB, Pin.OUT_PP) #X2 (naam van de pin) aanpassen!
+accel = pyb.Accel()
+
+#Initializatie current_led en next_led
+current_led = pin_red_led
+next_led = pin_infrared_led
+
+
+##FUNCTIES
+
 
 def switch_leds(current_led,next_led):
     current_led.low()
@@ -56,21 +75,19 @@ def switch_leds(current_led,next_led):
 def send(message):    #Jarno
 
 
-
-def encrypt(list):    #Siebe, Ruben
+def encrypt(list):    #Siebe, Ruben, moet niet perse een lijst zijn, zal waarschijnlijk een binaire reeks getallen aangevuld met nullen zijn
 
     return encrypted_message
 
 
 def read_and_send():
 
-    value_ecg = ECG_PIN.read()
-    value_PO = PO_PIN.read()
-    value_pressure = PRESSURE_PIN.read()
+    value_ecg = ecg_pin.read()
+    value_po = po_pin.read()
+    value_pressure = pressure_pin.read()
     switch_leds(current_led, next_led)
 
-
-    list = [value_ecg, value_PO, value_pressure]
+    list = [value_ecg, value_po, value_pressure]
 
     def reform(list)
         return message = [(12 cijfers) * 3, 92 0'en]  ' \
@@ -79,10 +96,3 @@ def read_and_send():
     encrypted_message = encrypt(message)
 
     send(message) #Jarno
-
-
-
-tim = pyb.Timer(4, freq=FREQ)
-tim.callback(read_and_send())
-
-#test test
