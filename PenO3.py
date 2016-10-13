@@ -65,7 +65,6 @@ next_led = pin_infrared_led
 
 ##FUNCTIES
 
-
 def switch_leds(current_led,next_led):
     current_led.low()
     next_led.high()
