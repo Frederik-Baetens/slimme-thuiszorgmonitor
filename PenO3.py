@@ -95,4 +95,4 @@ def read_and_send():
     message = reform(list)
     encrypted_message = encrypt(message)
 
-    send(message) #Jarno
+    send(encrypted_message) #Jarno
