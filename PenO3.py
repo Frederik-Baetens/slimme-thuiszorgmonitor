@@ -40,17 +40,17 @@ FREQ = 128              #frequentie waaraan gemeten wordt
 LENGHT_ELEMENT = 12
 LENGHTH_MESSAGE = 128
 
-#Timer
-#mogelijke code voor timer, moet getest worden
-tim = pyb.Timer(4, freq=FREQ)
-tim.callback(read_and_send())
-
 #Pin nummers
 PO_PIN_NB = ''              #nummer van de pulse-oximeter pin
 ECG_PIN_NB = ''             #nummer van de electrocardiogram pin
 PRESSURE_PIN_NB = ''        #nummer van de druksensor pin
 PIN_RED_LED_NB = 'X1'       #X1: naam van de pin, naam van deze pin moet nog aangepast worden
 PIN_INFRARED_LED_NB = 'X2'  #X2: naam van de pin, naam van deze pin moet nog aangepast worden
+
+#Timer
+#mogelijke code voor timer, moet getest worden
+tim = pyb.Timer(4, freq=FREQ)
+tim.callback(read_and_send())
 
 #Naam geven aan de pinnen en sensoren 
 po_pin = pyb.ADC(PO_PIN_NB)
