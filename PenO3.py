@@ -35,8 +35,10 @@
 #Imports
 import pyb
 
-#Frequentie
+#Constanten
 FREQ = 128              #frequentie waaraan gemeten wordt
+LENGHT_ELEMENT = 12
+LENGHTH_MESSAGE = 128
 
 #Timer
 #mogelijke code voor timer, moet getest worden
@@ -72,19 +74,29 @@ def switch_leds(current_led,next_led):
 
 
 def send(message):    #Jarno
+    return
 
 
-def encrypt(list):    #Siebe, Ruben, moet niet perse een lijst zijn, zal waarschijnlijk een binaire reeks getallen aangevuld met nullen zijn
-
+def encrypt(message):
     return encrypted_message
 
 
-def reform(list)
-    return message = [(12 cijfers) * 3, 92 0'en]  ' \
+def reform_list(list):
+    #returns a message in binary that is 128 characters long
+    for i in len(list):
+        a[i] = str(bin(a[i]))
+    for i in range(len(list)):                                          
+        if len(list[i]) < LENGHT_ELEMENT:
+            list[i] = (LENGTH_ELEMENT-len(list[i]))*'0' + list[i]
+    message = ''
+    for i in list:
+        message += i
+    if len(message) < LENGTH_MESSAGE:
+        message += (LENGTH_MESSAGE-len(message))*'0'
+    return message
 
 
 def read_and_send():
-
     value_ecg = ecg_pin.read()
     value_po = po_pin.read()
     value_pressure = pressure_pin.read()
@@ -92,7 +104,7 @@ def read_and_send():
 
     list = [value_ecg, value_po, value_pressure]
     
-    message = reform(list)
+    message = reform_message(list)
     encrypted_message = encrypt(message)
 
     send(encrypted_message) #Jarno
