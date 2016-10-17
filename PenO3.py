@@ -109,4 +109,3 @@ def read_and_send():
 
     send(encrypted_message) #Jarno
 
-Test voor tom
