@@ -41,9 +41,9 @@ LENGHT_ELEMENT = 12
 LENGHTH_MESSAGE = 128
 
 #Pin nummers
-PO_PIN_NB = ''              #nummer van de pulse-oximeter pin
-ECG_PIN_NB = ''             #nummer van de electrocardiogram pin
-PRESSURE_PIN_NB = ''        #nummer van de druksensor pin
+PO_PIN_NB = 'X4'              #nummer van de pulse-oximeter pin
+ECG_PIN_NB = 'X3'             #nummer van de electrocardiogram pin
+PRESSURE_PIN_NB = 'X5'        #nummer van de druksensor pin
 PIN_RED_LED_NB = 'X1'       #X1: naam van de pin, naam van deze pin moet nog aangepast worden
 PIN_INFRARED_LED_NB = 'X2'  #X2: naam van de pin, naam van deze pin moet nog aangepast worden
 
@@ -61,24 +61,29 @@ pin_infrared_led = pyb.Pin(PIN_INFRARED_LED_NB, Pin.OUT_PP) #X2 (naam van de pin
 accel = pyb.Accel()
 
 #Initializatie current_led en next_led
-current_led = pin_red_led
-next_led = pin_infrared_led
-
+#current_led = pin_red_led
+#next_led = pin_infrared_led
+current_led = pyb.LED(2)
+next_led = pyb.LED(3)
 
 ##FUNCTIES
 
 def switch_leds(current_led,next_led):
-    current_led.low()
-    next_led.high()
-    current_led, next_led = next_led, current_led
-
-
+    #current_led.low()
+    #next_led.high()
+    #current_led, next_led = next_led, current_led
+    current_led.off()
+    next_led.on()
+    #current_led, next_led = next_led, current_led
+    #--> dit gaat niet werken: de variabelen van de functie worden omgewisseld (en niet erbuiten)
+    # deze omwisseling moet dus buiten deze functie gebeuren
+    
 def send(message):    #Jarno
-    return
+    pass
 
 
 def encrypt(message):
-    return encrypted_message
+    pass
 
 
 def reform_list(list):
@@ -104,8 +109,12 @@ def read_and_send():
 
     list = [value_ecg, value_po, value_pressure]
     
-    message = reform_message(list)
-    encrypted_message = encrypt(message)
+    message = list #reform_list(list)
+    print message
+    #encrypted_message = encrypt(message)
 
-    send(encrypted_message) #Jarno
+    #send(encrypted_message) #Jarno
 
+##TEST CODE
+
+read_and_send()
