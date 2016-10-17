@@ -108,3 +108,5 @@ def read_and_send():
     encrypted_message = encrypt(message)
 
     send(encrypted_message) #Jarno
+
+Test voor tom
