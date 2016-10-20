@@ -35,7 +35,7 @@ def reform_list(list):
     for i in range(len(list)):
         list[i] = bin(list[i])[2:]
     for i in range(len(list)):
-        if len(list[i]) < LENGTH_ElEMENT:
+        if len(list[i]) < LENGTH_ELEMENT:
             list[i] = (LENGTH_ELEMENT-len(list[i]))*'0' + list[i]
     message = ''
     for i in list:
