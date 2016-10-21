@@ -68,11 +68,12 @@ def switch_leds():
     pin_infrared_led.toggle()
 
 """
+
 def encrypt(message):
     pass
-
 def send(encrypted_message):
     pass
+
 """
 
 ## TEST CODE ##
