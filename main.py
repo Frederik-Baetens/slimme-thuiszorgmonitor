@@ -35,15 +35,15 @@ sw.callback(lambda: switch_leds())  #probeersel voor interrupt
 def reform_lst(lst):
     # returns a message from a list in binary that is 128 characters long
     for i in range(len(lst)):
-        lst[i] = bin(lst[i])[2:]
+        lst[i] = "{0:b}".format(i)      
     for i in range(len(lst)):
         if len(lst[i]) < LENGTH_ELEMENT:
             lst[i] = (LENGTH_ELEMENT-len(lst[i]))*'0' + lst[i]
     message = ''
     for i in lst:
         message += i
-    if len(message) < LENGTH_MESSAGE:
-        message += (LENGTH_MESSAGE-len(message))*'0'
+    #if len(message) < LENGTH_MESSAGE:
+    #    message += (LENGTH_MESSAGE-len(message))*'0'
     return message
 
 def read():
@@ -70,7 +70,7 @@ def read_and_send():
 #timer, voorlopig voor tests
 def timer():
     start=utime.ticks_us()
-    reform_lst([3095,2021,3054])
+    read_and_send()
     return utime.ticks_diff(start,utime.ticks_us())
 
 print (timer())
