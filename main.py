@@ -5,7 +5,7 @@ import pyb, utime
 ## CONSTANTEN ##
 FREQ = 128              #frequentie waaraan gemeten wordt
 LENGTH_ELEMENT = 12     #constanten voor omzetten naar binair
-LENGTH_MESSAGE = 128    #lengte totale boodschap voor aes encryptie
+LENGTH_MESSAGE = 128
 
 
 ## PIN-NUMMERS ##
@@ -70,7 +70,7 @@ def read_and_send():
 #timer, voorlopig voor tests
 def timer():
     start=utime.ticks_us()
-    read_and_send()
+    bin(1000)
     return utime.ticks_diff(start,utime.ticks_us())
 
 print (timer())
