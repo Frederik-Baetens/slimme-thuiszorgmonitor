@@ -12,21 +12,23 @@ LENGTH_MESSAGE = 128    #lengte totale boodschap voor aes encryptie
 PO_PIN_NB = 'X19'           #nummer van de pulse-oximeter pin
 ECG_PIN_NB = 'X20'          #nummer van de electrocardiogram pin
 PRESSURE_PIN_NB = 'X21'     #nummer van de druksensor pin
-PIN_RED_LED_NB = 'X9'       #X9: Naam pin
-PIN_INFRARED_LED_NB = 'X10' #X10: Naam pin
+PIN_RED_LED_NB = 'X9'       #Naam pin
+PIN_INFRARED_LED_NB = 'X10' #Naam pin
 
 
 ## PINNEN AANMAKEN ##
 po_pin = pyb.ADC(PO_PIN_NB)
 ecg_pin = pyb.ADC(ECG_PIN_NB)
 pressure_pin = pyb.ADC(PRESSURE_PIN_NB)
-##pin_red_led = pyb.Pin(PIN_RED_LED_NB, Pin.OUT_PP)           # deze code werkt nog niet, pins moeten ook aangepast worden
-##pin_infrared_led = pyb.Pin(PIN_INFRARED_LED_NB, Pin.OUT_PP) # deze code werkt nog niet
+pin_red_led = pyb.LED(3)
+pin_infrared_led = pyb.LED(4)
 
 
-## INITIALISEREN ##
-current_led = pyb.LED(2)    # deze moeten vervangen worden door pin_red_led en pin_infrared_led
-next_led = pyb.LED(3)       # voor het testen worden de LED's op het bordje gebruikt
+## INITIALIZATIE ##
+pin_red_led.on()
+pin_infrared_led.off()
+sw = pyb.Switch()
+tim = pyb.Timer(1, freq=FREQ/128)
 
 
 ## FUNCTIES ##
@@ -62,9 +64,8 @@ def read_and_send():
 
 
 def switch_leds():
-    global current_led
-    global next_led
-    current_led, next_led = next_led, current_led
+    pin_red_led.toggle()
+    pin_infrared_led.toggle()
 
 """
 def encrypt(message):
@@ -74,17 +75,23 @@ def send(encrypted_message):
     pass
 """
 
-
-    
-
-
-
 ## TEST CODE ##
+
 
 read_and_send()
 
 print('alles werkt')
+
 for i in range(10):
-    pyb.LED(4).toggle()
+    pyb.LED(2).toggle()
     pyb.LED(1).toggle()
-    delay(150)
+    pyb.delay(150)
+pyb.LED(2).off()
+pyb.LED(1).off()
+
+#test voor interrupt
+sw.callback(lambda: switch_leds())
+
+#test voor timer interrupt
+
+tim.callback(lambda t: switch_leds())
