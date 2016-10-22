@@ -48,7 +48,7 @@ def read():
     lst.append(pressure_pin.read())
     return lst 
 
-def send():
+def send(message):
     return
 
 def switch_leds():
