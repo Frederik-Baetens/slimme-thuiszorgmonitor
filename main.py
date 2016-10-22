@@ -29,22 +29,22 @@ uart = pyb.UART(4,9600)
 tim = pyb.Timer(1, freq=FREQ/128)   #frequentie moet gewoon FREQ worden
 sw = pyb.Switch()                   #misschien switch niet nodig
 sw.callback(lambda: switch_leds())  #probeersel voor interrupt
+lst = [0,0,0]                       #verhoogt misschien snelheid
+
 
 ## FUNCTIES ##
-
 def reform_lst(lst):
     #we laten 0b eraan hangen, zo kunnen stukken onderscheid worden
     return ''.join([i for i in lst])
 
 def encrypt(lst):
-    encryptedlst = lst  #voorlopige code
-    return encryptedlst
+    #lst: lijst van 3 bytes, decimaal voorgesteld
+    return lst
 
 def read():
-    lst = []
-    lst.append(ecg_pin.read())
-    lst.append(po_pin.read())
-    lst.append(pressure_pin.read())
+    lst[0] = ecg_pin.read()
+    lst[1] = po_pin.read()
+    lst[2] = pressure_pin.read()
     return lst 
 
 def send(message):
@@ -70,10 +70,12 @@ def read_and_send():
 #timer, voorlopig voor tests
 def timer():
     start=time.ticks_us()
-    reform_lst([1515,4095,11])
+
     return time.ticks_diff(start,time.ticks_us())
 
 print (timer())
+
+tim.callback
 
 ##LOOP##
 # alles wat het bordje moet weten: functies variabelen etc moet hiervoor
