@@ -32,19 +32,14 @@ sw = pyb.Switch()                   #misschien switch niet nodig
 sw.callback(lambda: switch_leds())  #probeersel voor interrupt
 
 ## FUNCTIES ##
+
 def reform_lst(lst):
-    # returns a message from a list in binary that is 128 characters long
-    for i in range(len(lst)):
-        lst[i] = "{0:b}".format(i)      
-    for i in range(len(lst)):
-        if len(lst[i]) < LENGTH_ELEMENT:
-            lst[i] = (LENGTH_ELEMENT-len(lst[i]))*'0' + lst[i]
-    message = ''
-    for i in lst:
-        message += i
-    #if len(message) < LENGTH_MESSAGE:
-    #    message += (LENGTH_MESSAGE-len(message))*'0'
-    return message
+    #we laten 0b eraan hangen, zo kunnen stukken onderscheid worden
+    return ''.join([bin(i) for i in lst])
+
+def encrypt(lst):
+    encryptedlst = lst  #voorlopige code
+    return encryptedlst
 
 def read():
     lst = []
@@ -53,15 +48,20 @@ def read():
     lst.append(pressure_pin.read())
     return lst 
 
+def send():
+    return
+
 def switch_leds():
     pin_red_led.toggle()
     pin_infrared_led.toggle()
 
 def read_and_send():
     # read the values of the sensor pins, switch the LEDs, encrypt the message, send the message via Bluetooth
+    lst = read()
     switch_leds() 
-    lst=read()
+    lst = encrypt(lst)
     message = reform_lst(lst)
+    send(message)
     print(message)
     
     #ENCRYPTIE: encrypted_message = encrypt(message)
@@ -70,7 +70,7 @@ def read_and_send():
 #timer, voorlopig voor tests
 def timer():
     start=utime.ticks_us()
-    bin(1000)
+    reform_lst([1515,4095,11])
     return utime.ticks_diff(start,utime.ticks_us())
 
 print (timer())
