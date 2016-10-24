@@ -26,13 +26,12 @@ pin_infrared_led = pyb.LED(4)   #voorlopig voor test, moet een pin worden
 pin_red_led.on()
 pin_infrared_led.off()
 uart = pyb.UART(4,9600)
-tim = pyb.Timer(1, freq=FREQ/128)   #frequentie moet gewoon FREQ worden
+tim = pyb.Timer(1, freq = FREQ/128)   #frequentie moet gewoon FREQ worden
 tim.callback(lambda t: read())
 sw = pyb.Switch()                   #misschien switch niet nodig
-sw.callback(lambda: switch_leds())  #probeersel voor interrupt
+sw.callback(lambda:pyb.LED(2).toggle())
 lst=[0,0,0,0,0,0,0,0,0]
 t=0
-
 
 ## FUNCTIES ##
 def reform_lst(lst):
@@ -46,7 +45,7 @@ def encrypt(lst):
     #de 3 geencrypteerde waarden
     #de tag
     #de counter, ongeencrypteerd
-    enclst=lst
+    enclst = lst
     return enclst
 
 def read():
@@ -55,11 +54,9 @@ def read():
     lst[1+t]= po_pin.read()
     lst[2+t]= pressure_pin.read()
     switch_leds()
-    if t==0:
-        t=3
-    elif t==3:
-        t=6
-    else: t=0
+    if t == 6:
+        t = 0
+    else: t += 3
     return 
 
 def send(message):
@@ -82,7 +79,7 @@ def read_and_send():
 
 #timer, voorlopig voor tests
 def timer():
-    start=time.ticks_us()
+    start = time.ticks_us()
     return time.ticks_diff(start,time.ticks_us())
 
 print (timer())
@@ -92,7 +89,7 @@ print (timer())
 # alles wat het bordje moet weten: functies variabelen etc moet hiervoor
 # wat hierna komt wordt nooit geevalueerd.
 while True:
-    if tim.counter()==15 and t==6:
+    if tim.counter()==15 and t==6 and pyb.Pin('A14').value() == 1:
         read_and_send()
 
 
