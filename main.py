@@ -27,22 +27,40 @@ pin_red_led.on()
 pin_infrared_led.off()
 uart = pyb.UART(4,9600)
 tim = pyb.Timer(1, freq=FREQ/128)   #frequentie moet gewoon FREQ worden
+tim.callback(lambda t: read())
 sw = pyb.Switch()                   #misschien switch niet nodig
 sw.callback(lambda: switch_leds())  #probeersel voor interrupt
-
+lst=[0,0,0,0,0,0,0,0,0]
+t=0
 
 
 ## FUNCTIES ##
 def reform_lst(lst):
-    #de ount oinderscheidt de verschillende waarden
-    return '.'.join(lst)
+    #de . scheid de waarden
+    #deze functie is waarschijnlijk onnodig in dit bestand
+    #encryptie heeft deze functie  nodig
+    return '.'.join([str(i) for i in lst])
 
 def encrypt(lst):
-    #lst: lijst van 3 bytes, decimaal voorgesteld
-    return lst
+    #er wordt een lijst terug verwacht, dat bevat:
+    #de 3 geencrypteerde waarden
+    #de tag
+    #de counter, ongeencrypteerd
+    enclst=lst
+    return enclst
 
 def read():
-    return [ecg_pin.read(), po_pin.read(), pressure_pin.read()]
+    global t
+    lst[0+t]= ecg_pin.read()
+    lst[1+t]= po_pin.read()
+    lst[2+t]= pressure_pin.read()
+    switch_leds()
+    if t==0:
+        t=3
+    elif t==3:
+        t=6
+    else: t=0
+    return 
 
 def send(message):
     uart.write(message)
@@ -53,11 +71,9 @@ def switch_leds():
     pin_infrared_led.toggle()
 
 def read_and_send():
-    # read the values of the sensor pins, switch the LEDs, encrypt the message, send the message via Bluetooth
-    lst = read()
-    switch_leds() 
-    lst = encrypt(lst)
-    message = reform_lst(lst)
+    # read the values of the sensor pins, switch the LEDs, encrypt the message, send the message via Bluetooth 
+    enclst = encrypt(lst)
+    message = reform_lst(enclst)
     send(message)
     print(message)
     
@@ -67,18 +83,16 @@ def read_and_send():
 #timer, voorlopig voor tests
 def timer():
     start=time.ticks_us()
-    execfile ('RunFiles_Encryptie.py')
     return time.ticks_diff(start,time.ticks_us())
 
 print (timer())
 
-tim.callback
 
 ##LOOP##
 # alles wat het bordje moet weten: functies variabelen etc moet hiervoor
 # wat hierna komt wordt nooit geevalueerd.
-while False:
-    if tim.counter()==0:
+while True:
+    if tim.counter()==15 and t==6:
         read_and_send()
 
 
