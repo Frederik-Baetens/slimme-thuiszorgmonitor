@@ -70,7 +70,7 @@ def read_and_send():
 #timer, voorlopig voor tests
 def timer():
     start=time.ticks_us()
-
+    execfile ('RunFiles_Encryptie.py')
     return time.ticks_diff(start,time.ticks_us())
 
 print (timer())
