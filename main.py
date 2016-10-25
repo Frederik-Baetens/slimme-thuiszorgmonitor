@@ -26,7 +26,7 @@ pin_infrared_led = pyb.LED(4)   #voorlopig voor test, moet een pin worden
 pin_red_led.on()
 pin_infrared_led.off()
 uart = pyb.UART(4,9600)
-tim = pyb.Timer(1, freq = FREQ)   #frequentie moet gewoon FREQ worden
+tim = pyb.Timer(1, freq = FREQ/128)   #frequentie moet gewoon FREQ worden
 tim.callback(lambda t: read(NB_READINGS))
 sw = pyb.Switch()                   #misschien switch niet nodig
 sw.callback(lambda:pyb.LED(2).toggle())
