@@ -4,7 +4,7 @@ import pyb, time
 
 ## CONSTANTEN ##
 FREQ = 128              #frequentie waaraan gemeten wordt
-
+NB_READINGS = 4
 
 ## PIN-NUMMERS ##
 PO_PIN_NB = 'X19'           #nummer van de pulse-oximeter pin
@@ -27,10 +27,10 @@ pin_red_led.on()
 pin_infrared_led.off()
 uart = pyb.UART(4,9600)
 tim = pyb.Timer(1, freq = FREQ/128)   #frequentie moet gewoon FREQ worden
-tim.callback(lambda t: read())
+tim.callback(lambda t: read(NB_READINGS))
 sw = pyb.Switch()                   #misschien switch niet nodig
 sw.callback(lambda:pyb.LED(2).toggle())
-lst=[0,0,0,0,0,0,0,0,0]
+lst=[0,]*3*NB_READINGS
 t=0
 
 ## FUNCTIES ##
@@ -48,13 +48,13 @@ def encrypt(lst):
     enclst = lst
     return enclst
 
-def read():
+def read(NB_READINGS):
     global t
     lst[0+t]= ecg_pin.read()
     lst[1+t]= po_pin.read()
-    lst[2+t]= pressure_pin.read()
+    lst[2+t]= pressure_pin.read()//16
     switch_leds()
-    if t == 6:
+    if t == NB_READINGS*3-3:
         t = 0
     else: t += 3
     return 
@@ -80,6 +80,7 @@ def read_and_send():
 #timer, voorlopig voor tests
 def timer():
     start = time.ticks_us()
+    read(NB_READINGS)
     return time.ticks_diff(start,time.ticks_us())
 
 print (timer())
@@ -89,8 +90,9 @@ print (timer())
 # alles wat het bordje moet weten: functies variabelen etc moet hiervoor
 # wat hierna komt wordt nooit geevalueerd.
 while True:
-    if tim.counter()==15 and t==6 and pyb.Pin('A14').value() == 1:
+    if tim.counter()==15 and t==NB_READINGS*3-3 and pyb.Pin('A14').value()==1:
         read_and_send()
+
 
 
 """
