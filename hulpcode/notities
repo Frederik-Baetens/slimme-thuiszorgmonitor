@@ -1,2 +1,2 @@
 connect: sudo rfcomm connect rfcomm0 20:16:08:16:08:03
-release: sudo rfcommm release rfcomm0
+release: sudo rfcommm release rfcomm0 #werkt niet goed
