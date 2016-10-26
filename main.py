@@ -23,11 +23,17 @@ pin_infrared_led = pyb.LED(4)   #voorlopig voor test, moet een pin worden
 
 
 ## INITIALIZATIE ##
+message = ''
+a=0
 pin_red_led.on()
 pin_infrared_led.off()
-uart = pyb.UART(4,1382400)
-tim = pyb.Timer(1, freq = FREQ/128)   #frequentie moet gewoon FREQ worden
-tim.callback(lambda t: read(NB_READINGS))
+uart = pyb.UART(4, 1382400)
+tim1 = pyb.Timer(1, freq = FREQ)
+tim1.callback(lambda t: read(NB_READINGS))      #lezen
+tim2 = pyb.Timer(2, freq = FREQ/NB_READINGS)
+tim2.callback(lambda t: uart.write(message))    #versturen
+tim7 = pyb.Timer(7, freq = FREQ/NB_READINGS)
+tim7.callback(lambda t: toggle_a())
 sw = pyb.Switch()                   #misschien switch niet nodig
 sw.callback(lambda:pyb.LED(2).toggle())
 lst=[0,]*3*NB_READINGS
@@ -37,8 +43,8 @@ t=0
 def reform_lst(lst):
     #de . scheid de waarden
     #deze functie is waarschijnlijk onnodig in dit bestand
-    #encryptie heeft deze functie  nodig
-    return '.'.join([str(i) for i in lst])
+    #encryptie heeft deze functie  nodig 
+    return '.'.join([str(i) for i in lst]) 
 
 def encrypt(lst):
     #er wordt een lijst terug verwacht, dat bevat:
@@ -58,12 +64,14 @@ def read(NB_READINGS):
         t = 0
     else: t += 3
     #print (t)
-    #print (tim.counter())
+    #print (tim1.counter())
     return 
 
-def send(message):
-    uart.write(message)
+"""
+def send(msg):
+    uart.write(msg)
     return
+"""
 
 def switch_leds():
     pin_red_led.toggle()
@@ -72,8 +80,8 @@ def switch_leds():
 def read_and_send():
     # read the values of the sensor pins, switch the LEDs, encrypt the message, send the message via Bluetooth 
     enclst = encrypt(lst)
+    global message
     message = reform_lst(enclst)
-    send(message)
     print(message)
     
     #ENCRYPTIE: encrypted_message = encrypt(message)
@@ -82,24 +90,27 @@ def read_and_send():
 #timer, voorlopig voor tests
 def timer():
     start = time.ticks_us()
-    read(NB_READINGS)
+    read_and_send()
     return time.ticks_diff(start,time.ticks_us())
 
 print (timer())
 
-
+def toggle_a():
+    global a
+    if a==0:
+        a=1
+    else: a=0
 ##LOOP##
 # alles wat het bordje moet weten: functies variabelen etc moet hiervoor
 # wat hierna komt wordt nooit geevalueerd.
 while True:
-    if tim.counter()==1500 and t==NB_READINGS*3-3 and pyb.Pin('A14').value()==1:
+    if a and t==NB_READINGS*3-3 and pyb.Pin('A14').value()==1:
         read_and_send()
-    
 
 
 """
 def encrypt(message):
     pass
 def send(encrypted_message):
-    pass
+    pass    
 """
