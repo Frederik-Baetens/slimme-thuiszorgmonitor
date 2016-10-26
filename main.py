@@ -25,7 +25,7 @@ pin_infrared_led = pyb.LED(4)   #voorlopig voor test, moet een pin worden
 ## INITIALIZATIE ##
 pin_red_led.on()
 pin_infrared_led.off()
-uart = pyb.UART(4,9600)
+uart = pyb.UART(4,1382400)
 tim = pyb.Timer(1, freq = FREQ/128)   #frequentie moet gewoon FREQ worden
 tim.callback(lambda t: read(NB_READINGS))
 sw = pyb.Switch()                   #misschien switch niet nodig
@@ -57,6 +57,8 @@ def read(NB_READINGS):
     if t == NB_READINGS*3-3:
         t = 0
     else: t += 3
+    #print (t)
+    #print (tim.counter())
     return 
 
 def send(message):
@@ -90,9 +92,9 @@ print (timer())
 # alles wat het bordje moet weten: functies variabelen etc moet hiervoor
 # wat hierna komt wordt nooit geevalueerd.
 while True:
-    if tim.counter()==15 and t==NB_READINGS*3-3 and pyb.Pin('A14').value()==1:
+    if tim.counter()==1500 and t==NB_READINGS*3-3 and pyb.Pin('A14').value()==1:
         read_and_send()
-
+    
 
 
 """
