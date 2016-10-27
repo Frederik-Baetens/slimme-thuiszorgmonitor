@@ -32,9 +32,9 @@ tim1 = pyb.Timer(1, freq = FREQ)
 tim1.callback(lambda t: read(NB_READINGS))      #lezen
 tim2 = pyb.Timer(2, freq = FREQ/NB_READINGS)
 tim2.callback(lambda t: uart.write(message))    #versturen
-tim7 = pyb.Timer(7, freq = FREQ/NB_READINGS)
-tim7.callback(lambda t: toggle_a())
-sw = pyb.Switch()                   #misschien switch niet nodig
+tim7 = pyb.Timer(7, freq = FREQ/NB_READINGS)    
+tim7.callback(lambda t: toggle_a())             #encrypt en reform
+sw = pyb.Switch()
 sw.callback(lambda:pyb.LED(2).toggle())
 lst=[0,]*3*NB_READINGS
 t=0
@@ -67,15 +67,10 @@ def read(NB_READINGS):
     #print (tim1.counter())
     return 
 
-"""
-def send(msg):
-    uart.write(msg)
-    return
-"""
-
 def switch_leds():
     pin_red_led.toggle()
     pin_infrared_led.toggle()
+    return
 
 def read_and_send():
     # read the values of the sensor pins, switch the LEDs, encrypt the message, send the message via Bluetooth 
@@ -105,12 +100,5 @@ def toggle_a():
 # wat hierna komt wordt nooit geevalueerd.
 while True:
     if a and t==NB_READINGS*3-3 and pyb.Pin('A14').value()==1:
+        a=0
         read_and_send()
-
-
-"""
-def encrypt(message):
-    pass
-def send(encrypted_message):
-    pass    
-"""
