@@ -10,7 +10,6 @@ while True:
         print (message)
         message+='\n'
         f.write(message)
-
         message=''
 
 

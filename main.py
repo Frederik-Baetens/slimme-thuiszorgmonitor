@@ -1,5 +1,5 @@
 ## IMPORTS ##
-import pyb, time
+import pyb, time, EncryptieCode
 
 
 ## CONSTANTEN ##
@@ -26,6 +26,7 @@ pin_infrared_led = pyb.LED(4)   #voorlopig voor test, moet een pin worden
 ## INITIALIZATIE ##
 message = ''
 a=0
+counter = 0
 pin_red_led.on()
 pin_infrared_led.off()
 uart = pyb.UART(4, 1382400)
@@ -42,6 +43,7 @@ t=0
 
 ## FUNCTIES ##
 def reform_lst(lst):
+    #werkt nu niet meer, moet een lijst van lijsten en getallen uitpakken
     return '.'.join([str(i) for i in lst])+'.'
 
 def encrypt(lst):
@@ -49,7 +51,9 @@ def encrypt(lst):
     #de 3 geencrypteerde waarden
     #de tag
     #de counter, ongeencrypteerd
-    enclst = lst
+    global counter
+    enclst = EncryptieCode.Vercijfering(counter,lst)
+    counter += 1
     return enclst
 
 def read(NB_READINGS):
@@ -74,23 +78,22 @@ def read_and_send():
     global message
     message = reform_lst(enclst)
     print(message)
-    
-    #ENCRYPTIE: encrypted_message = encrypt(message)
-    #BLUETOOTH: send(encrypted_message)
 
+
+
+EncryptieCode.Vercijfering(12,[1,2,3,4,5,6,7,8])
 #timer, voorlopig voor tests
 def timer():
     start = time.ticks_us()
-    read_and_send()
+    EncryptieCode.Vercijfering(12,[1,2,3,4,5,6,7,8])
     return time.ticks_diff(start,time.ticks_us())
 
 print (timer())
 
 def toggle_a():
     global a
-    if a==0:
-        a=1
-    else: a=0
+    a=1
+
 ##LOOP##
 # alles wat het bordje moet weten: functies variabelen etc moet hiervoor
 # wat hierna komt wordt nooit geevalueerd.
