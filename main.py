@@ -51,9 +51,7 @@ def encrypt(lst):
     #de 3 geencrypteerde waarden
     #de tag
     #de counter, ongeencrypteerd
-    global counter
-    enclst = EncryptieCode.Vercijfering(counter,lst)
-    counter += 1
+    enclst = EncryptieCode.Vercijfering(12,lst)
     return enclst
 
 def read(NB_READINGS):
@@ -70,6 +68,7 @@ def read(NB_READINGS):
 def switch_leds():
     pin_red_led.toggle()
     pin_infrared_led.toggle()
+
     return
 
 def read_and_send():
