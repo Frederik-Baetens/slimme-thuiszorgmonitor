@@ -19,16 +19,11 @@ PIN_INFRARED_LED_NB = 'X10' #nummer van de infrarode led pin
 po_pin = pyb.ADC(PO_PIN_NB)
 ecg_pin = pyb.ADC(ECG_PIN_NB)
 pressure_pin = pyb.ADC(PRESSURE_PIN_NB)
-pin_red_led = pyb.LED(3)        #voorlopig voor test, moet een pin worden
-pin_infrared_led = pyb.LED(4)   #voorlopig voor test, moet een pin worden
+pin_red_led = pyb.LED(3)        #moet weg, wordt nu met pwm gedaan
+pin_infrared_led = pyb.LED(4)   #voorlopig nog om leds te laten branden
 
 
 ## INITIALIZATIE ##
-message = ''
-a=0
-counter = 0
-pin_red_led.on()
-pin_infrared_led.off()
 uart = pyb.UART(4, 1382400)
 tim1 = pyb.Timer(1, freq = FREQ)
 tim1.callback(lambda t: read(NB_READINGS))      #lezen
@@ -38,20 +33,27 @@ tim7 = pyb.Timer(7, freq = FREQ/NB_READINGS)
 tim7.callback(lambda t: toggle_a())             #encrypt en reform
 sw = pyb.Switch()
 sw.callback(lambda:pyb.LED(2).toggle())
+tim9 = pyb.Timer(9, freq=64)
+pwm1 = tim9.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.X3, pulse_width_percent=50) 
+pwm2 = tim9.channel(2, pyb.Timer.PWM_INVERTED, pin=pyb.Pin.board.X4, pulse_width_percent=50)
 lst=[0,]*NB_SENSORS*NB_READINGS
 t=0
+message = ''
+a=0
+counter = 0
 
 ## FUNCTIES ##
 def reform_list(tup):
     #zet alle waarden uit een tuple: (lijst, getal, lijst)
     #in 1 lage string, de waarden zijn gesplitst door punten met op het einde een dubbelpunt
-    boodschap =  [str(i) for i in tup[0]]
-    counter =str(tup[1])
-    tag = [str(i) for i in tup[2]]
+    #boodschap =  [str(i) for i in tup[0]]
+    #counter = str(tup[1])
+    #tag = [str(i) for i in tup[2]]
 
-    return '.'.join(boodschap)  + '.' + counter + '.' + '.'.join(tag) + ':'
+    return '.'.join([str(i) for i in tup[0]])  + '.' + str(tup[1]) + '.' + '.'.join([str(i) for i in tup[2]]) + ':'
 
 def encrypt(lst):
+    global counter
     counter += 1
     enclst = EncryptieCode.Vercijfering(counter,lst)
     return enclst
@@ -75,10 +77,10 @@ def switch_leds():
 
 def read_and_send():
     # read the values of the sensor pins, switch the LEDs, encrypt the message, send the message via Bluetooth 
-    enclst = encrypt(lst)
     global message
-    message = reform_lst(enclst)
     print(message)
+    enclst = encrypt(lst)
+    message = reform_list(enclst)
 
 
 
@@ -86,7 +88,7 @@ EncryptieCode.Vercijfering(12,[1,2,3,4,5,6,7,8])
 #timer, voorlopig voor tests
 def timer():
     start = time.ticks_us()
-    read(NB_READINGS)
+    reform_list(([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],15,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]))
     return time.ticks_diff(start,time.ticks_us())
 
 print (timer())
