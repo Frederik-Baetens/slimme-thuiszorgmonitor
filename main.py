@@ -47,11 +47,8 @@ def reform_lst(lst):
     return '.'.join([str(i) for i in lst])+'.'
 
 def encrypt(lst):
-    #er wordt een lijst terug verwacht, dat bevat:
-    #de 3 geencrypteerde waarden
-    #de tag
-    #de counter, ongeencrypteerd
-    enclst = EncryptieCode.Vercijfering(12,lst)
+    counter += 1
+    enclst = EncryptieCode.Vercijfering(counter,lst)
     return enclst
 
 def read(NB_READINGS):
@@ -84,7 +81,7 @@ EncryptieCode.Vercijfering(12,[1,2,3,4,5,6,7,8])
 #timer, voorlopig voor tests
 def timer():
     start = time.ticks_us()
-    EncryptieCode.Vercijfering(12,[1,2,3,4,5,6,7,8])
+    read(NB_READINGS)
     return time.ticks_diff(start,time.ticks_us())
 
 print (timer())
