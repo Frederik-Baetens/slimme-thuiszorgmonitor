@@ -42,9 +42,19 @@ lst=[0,]*NB_SENSORS*NB_READINGS
 t=0
 
 ## FUNCTIES ##
-def reform_lst(lst):
-    #werkt nu niet meer, moet een lijst van lijsten en getallen uitpakken
-    return '.'.join([str(i) for i in lst])+'.'
+def reform_list2(tup):
+    #zet alle waarden van een tuple die een matrix, een integer en een matrix bevat om naar 1 lange string
+    #de waarden worden van elkaar geslpitst met een punt
+    #op het einde van de string staat ook een punt
+    output = str()
+
+    boodschap = [str(i) for l in tup[0] for i in l]
+    counter = str(tup[1])
+    tag = lst =[str(i) for l in tup[2] for i in l]
+
+    output += '.'.join(boodschap) + '.' + counter + '.' + '.'.join(tag) + '.'
+
+    return output
 
 def encrypt(lst):
     #er wordt een lijst terug verwacht, dat bevat:
