@@ -45,7 +45,7 @@ t=0
 def reform_list2(tup):
     #zet alle waarden van een tuple die een matrix, een integer en een matrix bevat om naar 1 lange string
     #de waarden worden van elkaar geslpitst met een punt
-    #op het einde van de string staat ook een punt
+    #op het einde van de string staat een dubbelpunt
     output = str()
 
     boodschap = [str(i) for l in tup[0] for i in l]
