@@ -1,6 +1,6 @@
 import Subclasses_Encryptie
 import EncryptieCode
-import ReadSensor
+
 
 def Encryption(matrix,key):
     ### Eerste fase
@@ -23,7 +23,6 @@ def Encryption(matrix,key):
     return matrix
 
 
-
 final_result = EncryptieCode.final_result
 
 def Ontcijfering(final_result):
@@ -39,21 +38,21 @@ def Ontcijfering(final_result):
     counter = Subclasses_Encryptie.MakeCTR(number)
     state = Subclasses_Encryptie.CreateState(counter)
     EncryptionState = Encryption(state,Key)
+    EncryptionState = Subclasses_Encryptie.ReadBlok(EncryptionState)
 
 
     ### DECRYPTIE ###
 
     ### Lees de tag
     EncryptedMessage = final_result[0]
-    EncryptedTag = final_result[2]
     Tag2 = Encryption(zero_state,MAC)
+    Tag2 = Subclasses_Encryptie.ReadBlok(Tag2)
     Subclasses_Encryptie.ImplementMessage(Tag2,EncryptedMessage)
     ### Lees de Message
     Subclasses_Encryptie.ImplementMessage(EncryptedMessage,EncryptionState)
-    assert final_result[2] == Tag2
-
-    return ReadSensor.ReadBlok(EncryptedMessage)
+    if final_result[2] == Tag2:
+        return EncryptedMessage
 
 Message = Ontcijfering(final_result)
-print(Message)
-assert Message == [1,2,3,4,5,6,7,8]
+
+# VERGEET DE COUNTER-CONTROLE NIET!

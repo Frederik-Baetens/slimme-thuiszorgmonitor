@@ -36,7 +36,7 @@ tim1 = pyb.Timer(1, freq = FREQ)
 tim1.callback(lambda t: read(NB_READINGS))          #lezen
 tim2 = pyb.Timer(2, freq = FREQ/NB_READINGS)
 tim2.callback(lambda t: uart.write(message))        #versturen
-tim7 = pyb.Timer(7, freq = FREQ/(NB_READINGS))    
+tim7 = pyb.Timer(7, freq = FREQ/NB_READINGS)    
 tim7.callback(lambda t: toggle_enable_reading())    #encrypt en reform
 sw = pyb.Switch()
 sw.callback(lambda:pyb.LED(2).toggle())
@@ -54,15 +54,11 @@ lstp = [0,]*(NB_READINGS//2)
 def reform_list(tup):
     #zet alle waarden uit een tuple: (lijst, getal, lijst)
     #in 1 lage string, de waarden zijn gesplitst door punten met op het einde een dubbelpunt
-    #return '.'.join([str(i) for i in tup])
-    return '.'.join([str(i) for i in tup[0]])  + '.' + str(tup[1]) + '.' + '.'.join([str(i) for i in tup[2]]) + ':'
+    return '.'.join([str(i) for i in tup])
 
 def encrypt(lst):
-    #enclst = lst
+    enclst = lst
     print (lst)
-    global encryptie_counter
-    encryptie_counter += 1
-    enclst = EncryptieCode.Vercijfering(encryptie_counter,lst)
     global message
     message = reform_list(enclst)
     return
@@ -84,10 +80,38 @@ def switch_leds():
     pin_infrared_led.toggle()
     return
 
+lijst1=[0,4095,1555,1489,2098,255,1023,1024]
+lijst2=[0,255,16,15]
+
+
 def timer():
     start = time.ticks_us()
     #reform_list(([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],15,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]))
-    EncryptieCode.Vercijfering(12,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])
+    #EncryptieCode.Vercijfering(12,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])
+    
+    lijst2_1 = [hex(i)[2:] for i in lijst2]
+    lijst2_2 = [i if len(i)==2 else '0'+i for i in lijst2_1]
+    lijst2_3 = [i for string in lijst2_2 for i in string]
+    lijst2_4 = [eval('0x'+i) for i in lijst2_3]
+    '''
+    print (lijst2_1)
+    print (lijst2_2)
+    print (lijst2_3)
+    print (lijst2_4)
+    '''
+    lijst1_1 = [hex(i)[2:] for i in lijst1]
+    lijst1_2 = ['0'*(3-len(i))+i for i in lijst1_1]
+    lijst1_3 = [i for string in lijst1_2 for i in string]
+    lijst1_4 = [eval('0x'+i) for i in lijst1_3]
+    '''
+    print (lijst1_1)
+    print (lijst1_2)
+    print (lijst1_3)
+    print (lijst1_4)
+    '''
+
+    totlijst=lijst1_4+lijst2_4
+    
     return time.ticks_diff(start,time.ticks_us())
 
 def toggle_enable_reading():

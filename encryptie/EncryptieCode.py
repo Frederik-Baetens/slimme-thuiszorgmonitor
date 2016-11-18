@@ -1,6 +1,4 @@
 import Subclasses_Encryptie
-import ReadSensor
-
 
 def Encryption(matrix,key):
     ### Eerste fase
@@ -26,9 +24,7 @@ def Encryption(matrix,key):
 ### GEGEVENS ###
 
 
-def Vercijfering(number,list):
-    Message = ReadSensor.ListToBlok(list)
-
+def Vercijfering(number,Message):
     ### OP VOORHAND BEPAALDE GEGEVENS ###
 
     ### Opstellen van de counter
@@ -36,7 +32,6 @@ def Vercijfering(number,list):
     ### Opstellen van de state
     state = Subclasses_Encryptie.CreateState(counter)
     zero_state = Subclasses_Encryptie.MakeZeroState()
-    zero_state2 = Subclasses_Encryptie.MakeZeroState()
     ### Persoonlijke (geheime) sleutels
     # De sleutel voor de vercijfering van de code
     Key = Subclasses_Encryptie.Key
@@ -48,15 +43,18 @@ def Vercijfering(number,list):
 
     ### Opstelling van de encryptie
     EncryptionState = Encryption(state,Key)
+    EncryptionState = Subclasses_Encryptie.ReadBlok(EncryptionState)
     ### Implementatie van de boodschap
     Subclasses_Encryptie.ImplementMessage(Message,EncryptionState)
     ### Aanmaken van de tag
     Tag = Encryption(zero_state,MAC)
+    Tag = Subclasses_Encryptie.ReadBlok(Tag)
     Subclasses_Encryptie.ImplementMessage(Tag,Message)
     ### Het geïncrypteerde resultaat, gelinked met de counter
     return (Message,number,Tag)
 
 
-number = 16584
-Lijst = [4095,320,12,2465,1987,0,4095,4095]
+
+number = 12
+Lijst = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
 final_result = Vercijfering(number,Lijst)

@@ -38,23 +38,31 @@ def MakeZeroState():
 
 ### Gebruik van een gegeven nummer in de counter
 def MakeCTR(number):
-    matrix = MakeZeroState()
-    result = ""
-    for k in range(127,-1,-1):
-        if 2**k <= number:
-            result += "1"
-            number -= 2**k
-        else:
-            result += "0"
-    for j in range(16):
-        string = result[j*8:j*8+8]
-        byte = 0
-        for number in range(8):
-            if string[number] == '1':
-                byte += 2**(7-number)
-        matrix[j%4][j//4] = byte
-    return matrix
+    matrix = []
+    lijst = []
+    teller = 0
+    while number%255>0:
+        lijst.append(number%255)
+        number = number//255
+        if len(lijst) >= 4:
+            matrix.append(lijst)
+            lijst = []
+        teller += 1
 
+    lijst.append(number)
+    teller += 1
+    if len(lijst) >= 4:
+        matrix.append(lijst)
+        lijst = []
+
+    while teller < 16:
+        lijst.append(0)
+        if len(lijst) >= 4:
+            matrix.append(lijst)
+            lijst = []
+        teller += 1
+
+    return matrix
 
 ### Create state
 def CreateState(counter):
@@ -198,7 +206,33 @@ def Xor(key,i):
 
 ### Implementeer de boodschap
 def ImplementMessage(Encryption,Message):
+    for position in range(16):
+        Encryption[position] = Encryption[position] ^ Message[position]
+    return Encryption
+
+
+# Zet een lijst om in een 4x4-matrix
+def ExtendList(Lijst):
+    position = 0
+    while position < 16:
+        if Lijst[position]<100:
+            number = Lijst[position]
+            Lijst.insert(position,0)
+            position += 2
+        else:
+            first = Lijst[position]//100
+            second = Lijst[position]%100
+            Lijst[position] = first
+            position += 1
+            Lijst.insert(position,second)
+            position += 1
+    return Lijst
+
+
+# Zet een 4x4-matrix om in een lijst
+def ReadBlok(matrix):
+    lijst = []
     for row in range(4):
         for column in range(4):
-            Encryption[row][column] = Encryption[row][column] ^ Message[row][column]
-    return Encryption
+            lijst.append(matrix[row][column])
+    return lijst
