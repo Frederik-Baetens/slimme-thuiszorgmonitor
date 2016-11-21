@@ -45,7 +45,6 @@ tim9 = pyb.Timer(9, freq=64)
 pwm1 = tim9.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.X3, pulse_width_percent=50) 
 pwm2 = tim9.channel(2, pyb.Timer.PWM_INVERTED, pin=pyb.Pin.board.X4, pulse_width_percent=50)
 
-lst = [0,]*NB_READINGS*NB_SENSORS
 lst_ecg = [0,]*NB_READINGS
 lst_po = [0,]*(NB_READINGS//2)
 
@@ -102,4 +101,4 @@ def toggle_enable_reading():
 while True:
     if enable_reading and read_counter==(NB_READINGS-1)*NB_SENSORS and pyb.Pin('A14').value() == 1:
         enable_reading = 0
-        encrypt(lst)
+        encrypt(lst_ecg + lst_op)
