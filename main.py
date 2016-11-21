@@ -23,7 +23,7 @@ pin_red_led = pyb.LED(3)        #moet weg, wordt nu met pwm gedaan
 pin_infrared_led = pyb.LED(4)   #voorlopig nog om leds te laten branden
 
 
-## INITIALIZATIE ##
+## INITIALISATIE ##
 
 read_counter = 0
 message = ''
@@ -46,8 +46,8 @@ pwm1 = tim9.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.X3, pulse_width_percent=
 pwm2 = tim9.channel(2, pyb.Timer.PWM_INVERTED, pin=pyb.Pin.board.X4, pulse_width_percent=50)
 
 lst = [0,]*NB_READINGS*NB_SENSORS
-lste = [0,]*NB_READINGS
-lstp = [0,]*(NB_READINGS//2)
+lst_ecg = [0,]*NB_READINGS
+lst_po = [0,]*(NB_READINGS//2)
 
 
 ## FUNCTIES ##
@@ -69,15 +69,17 @@ def encrypt(lst):
 
 def read(NB_READINGS):
     global read_counter
-    lst[0+read_counter] = ecg_pin.read()
-    #if po_counter = 
-    lst[1+read_counter]= po_pin.read()
-    #lst[2+read_counter]= pressure_pin.read()
-    switch_leds()                       #overbodig, vervangen door pwm
-    if read_counter == (NB_READINGS-1)*NB_SENSORS:
+
+    lst_ecg[read_counter] = ecg_pin.read()
+    if read_counter % 2 == 0:
+        lst_po[read_counter//2] = po_pin.read()//16
+
+    if read_counter == NB_READINGS - 1:
         read_counter = 0
-    else: read_counter += NB_SENSORS
-    return 
+    else:
+        read_counter += 1
+    return
+
 
 def switch_leds():
     pin_red_led.toggle()
