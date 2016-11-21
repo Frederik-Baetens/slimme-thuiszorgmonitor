@@ -15,7 +15,7 @@ def read(NB_READINGS):
 
 
 
-#### 2e versie
+#### 2e versie ---> WERKT NIET 
 #### hiervoor moeten lst_ecg en lst_op gewoon als lege lijsten, zonder lengte 
 
 lst_ecg = []
