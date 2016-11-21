@@ -54,7 +54,7 @@ lstp = [0,]*(NB_READINGS//2)
 def reform_list(tup):
     #zet alle waarden uit een tuple: (lijst, getal, lijst)
     #in 1 lage string, de waarden zijn gesplitst door punten met op het einde een dubbelpunt
-    return '.'.join([str(i) for i in tup])
+    return '.'.join([str(i) for i in tup])+':'
 
 def encrypt(lst):
     enclst = lst
