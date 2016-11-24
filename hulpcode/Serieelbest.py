@@ -1,7 +1,6 @@
 import serial
 import Decryptie
 
-
 message=''
 decrypted_message=()
 ser=serial.Serial('/dev/rfcomm0')
@@ -28,11 +27,13 @@ def dereform(string):
 
 while True:
     data = str(ser.read(),'utf-8')
-    if data == ':':         #zorgt voor start met :
+    if data == ':':
+        #zorgt voor start met :
         while True:
             data = str(ser.read(),'utf-8')
             if data != ':':
                 message += data
+                
             else:
                 decrypted_message = Decryptie.Ontcijfering(dereform(message))
                 
@@ -42,11 +43,4 @@ while True:
 
                 for i in range(8, 12):
                     print(str(decrypted_message[i]) + '\n')
-                    pofile.write(str(decrypted_message[i] + '\n')
-  
-                message= ''
-                
-
-                
-                
-                
+                    pofile.write(str(decrypted_message[i]) + '\n')
