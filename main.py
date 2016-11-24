@@ -1,5 +1,5 @@
 ## IMPORTS ##
-import pyb, time, EncryptieCode
+import pyb, time, Encryptie
 
 
 ## CONSTANTEN ##
@@ -60,7 +60,7 @@ def encrypt(lst):
     print (lst)
     global encryptie_counter
     encryptie_counter += 1
-    enclst = EncryptieCode.Vercijfering(encryptie_counter,lst)
+    enclst = Encryptie.Vercijfering(encryptie_counter,lst)
     global message
     message = reform_list(enclst)
     return
@@ -85,8 +85,8 @@ def switch_leds():
 
 def timer():
     start = time.ticks_us()
-    reform_list(([1,2,3,4,5,6,7,8,9,10,11,12],15,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]))
-    #EncryptieCode.Vercijfering(12,[3095,255,1,0,4095,4095,1000,0,0,255,144,255])
+    #reform_list(([1,2,3,4,5,6,7,8,9,10,11,12],15,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]))
+    Encryptie.Vercijfering(12,[3095,255,1,0,4095,4095,1000,0,0,255,144,255])
     #read(NB_READINGS)
     return time.ticks_diff(time.ticks_us(),start)
 
