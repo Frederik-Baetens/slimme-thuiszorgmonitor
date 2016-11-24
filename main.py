@@ -24,6 +24,7 @@ pin_infrared_led = pyb.LED(4)   #voorlopig nog om leds te laten branden
 
 
 ## INITIALISATIE ##
+pin_red_led.toggle()
 
 read_counter = 0
 message = ''
@@ -53,11 +54,9 @@ lst_po = [0,]*(NB_READINGS//2)
 def reform_list(tup):
     #zet alle waarden uit een tuple: (lijst, getal, lijst)
     #in 1 lage string, de waarden zijn gesplitst door punten met op het einde een dubbelpunt
-    #return '.'.join([str(i) for i in tup])
     return '.'.join([str(i) for i in tup[0]])  + '.' + str(tup[1]) + '.' + '.'.join([str(i) for i in tup[2]]) + ':'
 
 def encrypt(lst):
-    #enclst = lst
     print (lst)
     global encryptie_counter
     encryptie_counter += 1
@@ -79,7 +78,6 @@ def read(NB_READINGS):
         read_counter += 1
     return
 
-
 def switch_leds():
     pin_red_led.toggle()
     pin_infrared_led.toggle()
@@ -87,9 +85,10 @@ def switch_leds():
 
 def timer():
     start = time.ticks_us()
-    #reform_list(([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],15,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]))
-    EncryptieCode.Vercijfering(12,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])
-    return time.ticks_diff(start,time.ticks_us())
+    reform_list(([1,2,3,4,5,6,7,8,9,10,11,12],15,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]))
+    #EncryptieCode.Vercijfering(12,[3095,255,1,0,4095,4095,1000,0,0,255,144,255])
+    #read(NB_READINGS)
+    return time.ticks_diff(time.ticks_us(),start)
 
 def toggle_enable_reading():
     global enable_reading
@@ -99,6 +98,7 @@ def toggle_enable_reading():
 # alles wat het bordje moet weten: functies variabelen etc moet hiervoor
 # wat hierna komt wordt nooit geevalueerd.
 while True:
-    if enable_reading and read_counter==(NB_READINGS-1)*NB_SENSORS and pyb.Pin('A14').value() == 1:
+    if enable_reading and read_counter == NB_READINGS-1 and pyb.Pin('A14').value() == 1:
         enable_reading = 0
-        encrypt(lst_ecg + lst_op)
+        encrypt(lst_ecg + lst_po)
+        switch_leds()

@@ -1,17 +1,6 @@
-#initialiseer een lege 4x4 matrix: matrix_1
-matrix_1 = []
-for i in range(4):
-    matrix_1 = matrix_1 + [[0]*4]
-
-#initialiseer een lege 4x4 matrix: matrix_2
-matrix_2 = []
-for j in range(4):
-    matrix_2 = matrix_2 + [[0]*4]
-
-
 def dereform(string):
     """
-    Maakt van de ontvangen vlakke string ('aaa.bbb.ccc. ... .zzz') opnieuw een 4x4 matrix, een nummer en een 4x4 matrix.
+    Maakt van de ontvangen vlakke string ('aaa.bbb.ccc. ... .zzz') opnieuw tupple van een lijst, een nummer en een lijst.
     """
 
     #herwerk de string tot een lijst van afzonderlijke waarden
@@ -24,23 +13,9 @@ def dereform(string):
             index_last_point = check_new_point
         check_new_point += 1
 
-    #zet de eerste 16 waarden in matrix_1
-    current = 0
-    for rij in range(4):
-        for kolom in range(4):
-            matrix_1[rij][kolom] = list[current]
-            current += 1
+    list.append(int(string[index_last_point+1:-1]))
+    return list[:16], list[16], list[17:]
 
-    #de 17de waarde blijft bewaard als een nummer
-    nummer = list[current]
-    current += 1
+a = '1.2.3.4.5.6.7.8.9.10.11.12.13.14.15.16.17.18.19.20.21.22.23.24.25.26.77.28.29.30.31.32.33:'
 
-    #zet de laatste 16 waarden in matrix_2
-    for rij in range(4):
-        for kolom in range(4):
-            matrix_2[rij][kolom] = list[current]
-            current += 1
-
-    return matrix_1, nummer, matrix_2
-
-a = '11.22.33.44.55.66.77.88.99.1010.1111.2222.3333.4444.5555.6666.7777.8888.9999.2020.111111.222222.333333.444444.555555.666666.777777.888888.999999.3030.3131.3232.6969.'
+print dereform(a)
