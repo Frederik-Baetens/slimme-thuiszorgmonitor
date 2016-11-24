@@ -37,11 +37,11 @@ while True:
                 decrypted_message = Decryptie.Ontcijfering(dereform(message))
                 
                 for i in range(0, 8):
-                    print(str(decrypted_message[i]) + '\n')
+                    print(decrypted_message[i]) + '\n')
                     ekgfile.write(str(decrypted_message[i]) + '\n')
 
                 for i in range(8, 12):
-                    print(str(decrypted_message[i]) + '\n')
+                    print(decrypted_message[i]) + '\n')
                     pofile.write(str(decrypted_message[i] + '\n')
   
                 message= ''
