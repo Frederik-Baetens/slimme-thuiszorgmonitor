@@ -1,8 +1,9 @@
-import serial
+import serial, os
+
 message=''
 ser=serial.Serial('/dev/rfcomm0')
-ekgfile = open('/home/frederik/Documents/ekgfile.txt','a')
-pofile = open ('/home/frederik/Documents/pofile.txt' ,'a')
+ekgfile = os.open('ekgpipe', os.O_WRONLY)
+pofile = os.open('popipe', os.O_WRONLY)
 filelijst = [ekgfile,pofile]
 position = 0
 filecounter = 0
@@ -20,7 +21,7 @@ while True:
     else:
         print (message)
         message+='\n'
-        filelijst[filecounter].write(message)
+        os.write(fileijst[filecounter], message.encode('utf-8'))
         message=''
         filecounter = 1 - filecounter
 
