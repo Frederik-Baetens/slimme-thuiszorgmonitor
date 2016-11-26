@@ -39,8 +39,8 @@ while True:
                 decrypted_message = Decryptie.Ontcijfering(dereform(message)) 
                 for i in range(0, 8):
                     print(str(decrypted_message[i]) + '\n')
-                    os.write(ekgfile, bytes(str(decrypted_message[i]) + '\n', 'utf-8'))
+                    os.write(ekgfile, str(decrypted_message[i]).encode('utf-8') + b'\n')
 
                 for i in range(8, 12):
                     print(str(decrypted_message[i]) + '\n')
-                    os.write(pofile, bytes(str(decrypted_message[i]) + '\n', 'utf-8'))
+                    os.write(pofile, str(decrypted_message[i]).convert('utf-8') + b'\n')

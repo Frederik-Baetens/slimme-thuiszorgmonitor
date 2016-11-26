@@ -1,11 +1,12 @@
 import serial
 import Decryptie
+import os
 
 message=''
 decrypted_message=()
 ser=serial.Serial('/dev/rfcomm0')
-ekgfile = open('/home/frederik/Documents/ekgfile.txt','a')
-pofile = open ('/home/frederik/Documents/pofile.txt' ,'a')
+ekgfile = os.open('ekgpipe', os.O_WRONLY)
+pofile = os.open('popipe', os.O_WRONLY)
 
 def dereform(string):
     """
@@ -35,12 +36,11 @@ while True:
                 message += data
                 
             else:
-                decrypted_message = Decryptie.Ontcijfering(dereform(message))
-                
+                decrypted_message = Decryptie.Ontcijfering(dereform(message)) 
                 for i in range(0, 8):
                     print(str(decrypted_message[i]) + '\n')
-                    ekgfile.write(str(decrypted_message[i]) + '\n')
+                    os.write(ekgfile, str(decrypted_message[i]).encode('utf-8') + b'\n')
 
                 for i in range(8, 12):
                     print(str(decrypted_message[i]) + '\n')
-                    pofile.write(str(decrypted_message[i]) + '\n')
+                    os.write(pofile, str(decrypted_message[i]).convert('utf-8') + b'\n')

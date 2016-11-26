@@ -1,5 +1,5 @@
 ## IMPORTS ##
-import pyb, time, EncryptieCode
+import pyb, time, Encryptie
 
 
 ## CONSTANTEN ##
@@ -87,32 +87,8 @@ lijst2=[0,255,16,15]
 def timer():
     start = time.ticks_us()
     #reform_list(([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],15,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]))
-    #EncryptieCode.Vercijfering(12,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])
-    
-    lijst2_1 = [hex(i)[2:] for i in lijst2]
-    lijst2_2 = [i if len(i)==2 else '0'+i for i in lijst2_1]
-    lijst2_3 = [i for string in lijst2_2 for i in string]
-    lijst2_4 = [eval('0x'+i) for i in lijst2_3]
-    '''
-    print (lijst2_1)
-    print (lijst2_2)
-    print (lijst2_3)
-    print (lijst2_4)
-    '''
-    lijst1_1 = [hex(i)[2:] for i in lijst1]
-    lijst1_2 = ['0'*(3-len(i))+i for i in lijst1_1]
-    lijst1_3 = [i for string in lijst1_2 for i in string]
-    lijst1_4 = [eval('0x'+i) for i in lijst1_3]
-    '''
-    print (lijst1_1)
-    print (lijst1_2)
-    print (lijst1_3)
-    print (lijst1_4)
-    '''
-
-    totlijst=lijst1_4+lijst2_4
-    
-    return time.ticks_diff(start,time.ticks_us())
+    #Encryptie.Vercijfering(12,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])
+    return time.ticks_diff(time.ticks_us(),start)
 
 def toggle_enable_reading():
     global enable_reading
