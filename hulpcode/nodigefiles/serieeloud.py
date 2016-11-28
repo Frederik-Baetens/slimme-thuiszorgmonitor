@@ -13,7 +13,7 @@ while True:
     if data == ':':
         print (message)
         message+='\n'
-        filelijst[1].write(message)
+        os.write(filelijst[filecounter], message.encode('utf-8'))
         message=''
         filecounter = 0
     elif data != '.':
@@ -21,7 +21,7 @@ while True:
     else:
         print (message)
         message+='\n'
-        os.write(fileijst[filecounter], message.encode('utf-8'))
+        os.write(filelijst[filecounter], message.encode('utf-8'))
         message=''
         filecounter = 1 - filecounter
 
