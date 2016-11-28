@@ -2,6 +2,7 @@ import serial
 import Decryptie
 import os
 
+last_counter = -1
 message=''
 decrypted_message=()
 ser=serial.Serial('/dev/rfcomm0')
@@ -36,11 +37,18 @@ while True:
                 message += data
                 
             else:
-                decrypted_message = Decryptie.Ontcijfering(dereform(message)) 
-                for i in range(0, 8):
-                    print(str(decrypted_message[i]) + '\n')
-                    os.write(ekgfile, str(decrypted_message[i]).encode('utf-8') + b'\n')
-
-                for i in range(8, 12):
-                    print(str(decrypted_message[i]) + '\n')
-                    os.write(pofile, str(decrypted_message[i]).convert('utf-8') + b'\n')
+                dereformed_message = dereform(message)  #zet de string terug om naar: ([16], counter, [16])
+                current_counter = dereformed_message[1] #onthoud de counter voor later te vergelijken met de vorige 
+                decrypted_message = Decryptie.Ontcijfering(dereform(message))
+                
+                if decrypted_message!= None and (current_counter > last_counter):
+                    #Als de gedecrypteerde waarde een fout bezit, wordt hij None,om te voorkomen dat het programma
+                    #foutloopt en stopt zorgt dit ervoor dat de None waarde genegeerd wordt
+                    #Als de huidige counter niet groter is dan die van het vorige pakket moet dit pakket overgeslagen worden
+                    for i in range(0, 8):
+                        print(str(decrypted_message[i]) + '\n')
+                        os.write(ekgfile, str(decrypted_message[i]).encode('utf-8') + b'\n')
+                    for i in range(8, 12):
+                        print(str(decrypted_message[i]) + '\n')
+                        os.write(pofile, str(decrypted_message[i]).convert('utf-8') + b'\n')
+                    last_counter = current_counter
