@@ -36,7 +36,7 @@ while True:
             else:
                 dereformed_message = dereform(message)
                 current_counter = dereformed_message[1]
-                decrypted_message = Decryptie.Ontcijfering(dereformed_message))
+                decrypted_message = Decryptie.Ontcijfering(dereformed_message)
                 message = ''
                 if decrypted_message!=None and (current_counter > last_counter):
                     for i in range(0, 8):
@@ -46,3 +46,7 @@ while True:
                         print(str(decrypted_message[i]) + '\n')
                         os.write(pofile, str(decrypted_message[i]).encode('utf-8') + b'\n')
                     last_counter = current_counter
+                else:
+                    print ('PROBLEEM PROBLEEM PROBLEEM PROBLEEM')
+                    print (decrypted_message)
+                    print (current_counter, last_counter)
