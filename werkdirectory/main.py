@@ -54,7 +54,7 @@ lst_po = [0,]*(NB_READINGS//2)
 def REFORM_LIST(tup):
 
     return '.'.join( [str(i) for lst in tup[0] for i in lst] ) + '.' +\
-        str(tup[1]) + '.' +\
+        str(tup[1]) + '.'
 
 def reform_list(tup):
     #zet alle waarden uit een tuple: (lijst, getal, lijst)

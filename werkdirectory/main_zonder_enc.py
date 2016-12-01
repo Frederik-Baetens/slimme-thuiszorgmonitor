@@ -1,5 +1,5 @@
 ## IMPORTS ##
-import pyb, time, Encryptie
+import pyb, time
 
 
 ## CONSTANTEN ##

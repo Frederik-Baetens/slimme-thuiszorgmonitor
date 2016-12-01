@@ -1,12 +1,12 @@
 tijd = 32;
-sample_rate = 360;
+sample_rate = 128;
 lengte = tijd;
 pauze = 0;
 xste_keer_doorlopen = 0;
 vier_laatste_pieken = [];
 tijdstip_laatste_piek = -10;
 
-g = fopen('pijp','r')
+g = fopen('ekgpipe','r')
 
 while xste_keer_doorlopen ~= 20312
     
