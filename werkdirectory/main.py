@@ -52,19 +52,12 @@ lst_po = [0,]*(NB_READINGS//2)
 
 ## FUNCTIES ##
 def REFORM_LIST(tup):
-    #zet alle waarden uit tuple: (matrix, getal, matrix) in 1 lange string, alle waarden gesplitst door punten
-    #op het einde van de string staat een dubbelpunt
 
-    return '.'.join([str(i) for i in tup[0][0]]) + '.' +\
-        '.'.join([str(i) for i in tup[0][1]]) + '.' +\
-        '.'.join([str(i) for i in tup[0][2]]) + '.' +\
-        '.'.join([str(i) for i in tup[0][3]]) + '.' +\
+    return '.'.join( [str(i) for lst in tup[0] for i in lst] ) + '.' +\
         str(tup[1]) + '.' +\
-        '.'.join([str(i) for i in tup[2][0]]) + '.' +\
-        '.'.join([str(i) for i in tup[2][1]]) + '.' +\
-        '.'.join([str(i) for i in tup[2][2]]) + '.' +\
-        '.'.join([str(i) for i in tup[2][3]]) +\
-        ':'
+        '.'.join( [str(i) for lst in tup[2] for i in lst] ) + ':'
+
+        
 def reform_list(tup):
     #zet alle waarden uit een tuple: (lijst, getal, lijst)
     #in 1 lage string, de waarden zijn gesplitst door punten met op het einde een dubbelpunt
