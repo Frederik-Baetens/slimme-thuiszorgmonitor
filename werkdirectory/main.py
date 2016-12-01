@@ -65,6 +65,7 @@ def REFORM_LIST(tup):
         '.'.join([str(i) for i in tup[2][2]]) + '.' +\
         '.'.join([str(i) for i in tup[2][3]]) +\
         ':'
+
 def reform_list(tup):
     #zet alle waarden uit een tuple: (lijst, getal, lijst)
     #in 1 lage string, de waarden zijn gesplitst door punten met op het einde een dubbelpunt
@@ -99,8 +100,8 @@ def switch_leds():
 
 def timer():
     start = time.ticks_us()
-    #reform_list(([1,2,3,4,5,6,7,8,9,10,11,12],15,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]))
-    Encryptie.Vercijfering(12,[3095,255,1,0,4095,4095,1000,0,0,255,144,255])
+    REFORM_LIST(([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]],15,[[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]]))
+    #Encryptie.Vercijfering(12,[3095,255,1,0,4095,4095,1000,0,0,255,144,255])
     #read(NB_READINGS)
     return time.ticks_diff(time.ticks_us(),start)
 
