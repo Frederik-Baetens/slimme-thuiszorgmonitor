@@ -76,7 +76,7 @@ def encrypt(lst):
     encryptie_counter += 1
     enclst = Encryptie.Vercijfering(encryptie_counter,lst)
     global message
-    message = reform_list(enclst)
+    message = REFORM_LIST(enclst)
     return
 
 def read(NB_READINGS):
