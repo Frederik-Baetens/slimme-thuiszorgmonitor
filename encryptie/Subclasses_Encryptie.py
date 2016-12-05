@@ -16,7 +16,7 @@ s_blok = [[0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2
           [0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf],
           [0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16]]
 
-
+# De inverse van de S-blok
 inv_s_blok =  [[0x52, 0x09, 0x6A, 0xD5, 0x30, 0x36, 0xA5, 0x38, 0xBF, 0x40, 0xA3, 0x9E, 0x81, 0xF3, 0xD7, 0xFB],
                [0x7C, 0xE3, 0x39, 0x82, 0x9B, 0x2F, 0xFF, 0x87, 0x34, 0x8E, 0x43, 0x44, 0xC4, 0xDE, 0xE9, 0xCB],
                [0x54, 0x7B, 0x94, 0x32, 0xA6, 0xC2, 0x23, 0x3D, 0xEE, 0x4C, 0x95, 0x0B, 0x42, 0xFA, 0xC3, 0x4E],
@@ -40,22 +40,27 @@ Key = [[72, 109, 105, 133, 58, 87, 62, 187, 217, 142, 176, 11, 235, 101, 213, 22
        [51, 225, 149, 143, 27, 250, 111, 224, 81, 171, 196, 36, 162, 9, 205, 233, 71, 78, 131, 106, 216, 150, 21, 127, 101, 243, 230, 153, 56, 203, 45, 180, 49, 250, 215, 99, 114, 136, 95, 60, 156, 20, 75, 119],
        [41, 170, 249, 238, 225, 75, 178, 92, 219, 144, 34, 126, 230, 118, 84, 42, 102, 16, 68, 110, 247, 231, 163, 205, 4, 227, 64, 141, 110, 141, 205, 64, 100, 233, 36, 100, 48, 217, 253, 153, 173, 116, 137, 16],
        [244, 208, 160, 177, 99, 179, 19, 162, 137, 58, 41, 139, 162, 152, 177, 58, 191, 39, 150, 172, 99, 68, 210, 126, 176, 244, 38, 88, 41, 221, 251, 163, 120, 165, 94, 253, 115, 214, 136, 117, 72, 158, 22, 99]]
-# De code voor het maken van de tag
+# De sleutel voor het aanmaken van de tag
 MAC = [[26, 177, 2, 63, 57, 136, 138, 181, 170, 34, 168, 29, 204, 238, 70, 91, 186, 84, 18, 73, 58, 110, 124, 53, 229, 139, 247, 194, 59, 176, 71, 133, 15, 191, 248, 125, 32, 159, 103, 26, 12, 147, 244, 238],
        [238, 172, 251, 148, 111, 195, 56, 172, 252, 63, 7, 171, 25, 38, 33, 138, 27, 61, 28, 150, 202, 247, 235, 125, 190, 73, 162, 223, 242, 187, 25, 198, 76, 247, 238, 40, 114, 133, 107, 67, 25, 156, 247, 180],
        [75, 169, 240, 145, 234, 67, 179, 34, 248, 187, 8, 42, 243, 72, 64, 106, 51, 123, 59, 81, 219, 160, 155, 202, 172, 12, 151, 93, 156, 144, 7, 90, 28, 140, 139, 209, 211, 95, 212, 5, 135, 216, 12, 9],
        [77, 186, 74, 241, 56, 130, 200, 57, 237, 111, 167, 158, 73, 38, 129, 31, 112, 86, 215, 200, 75, 29, 202, 2, 221, 192, 10, 8, 248, 56, 50, 58, 111, 87, 101, 95, 144, 199, 162, 253, 50, 245, 87, 170]]
 
 
-### Een 4x4-0-matrix
-ZereState = [[0,0,0,0],
+### Een vier op vier nul-matrix
+ZeroState = [[0,0,0,0],
              [0,0,0,0],
              [0,0,0,0],
              [0,0,0,0]]
 
 
-### Gebruik van een gegeven nummer in de counter
 def MakeCTR(number):
+    """
+      Een nummer (de counter) wordt omgezet in een vier op vier matrix.
+
+    :param number: Een getal tussen de 0 en de 2**128-1
+    :return matrix: 4x4-matrix
+    """
     lijst = []
     matrix = []
     teller = 0
@@ -79,8 +84,13 @@ def MakeCTR(number):
     return matrix
 
 
-### Sub-bytes
 def SubBytes(matrix):
+    """
+      De 16 elementen (de bytes) in de 4x4-matrix worden één voor één getransformeerd via de S-blok.
+
+    :param matrix: 4x4-matrix
+    :return matrix: 4x4-matrix
+    """
     for row in range(4):
         for column in range(4):
             hexa = matrix[row][column]
@@ -88,8 +98,13 @@ def SubBytes(matrix):
     return matrix
 
 
-### Inverse Sub-bytes
 def InvSubBytes(matrix):
+    """
+      Het tegengestelde van de functie 'SubBytes'.
+
+    :param matrix: 4x4-matrix
+    :return matrix: 4x4-matrix
+    """
     for row in range(4):
         for column in range(4):
             hexa = matrix[row][column]
@@ -97,18 +112,34 @@ def InvSubBytes(matrix):
     return matrix
 
 
-### Shift-rows
 def ShiftRows(matrix):
+    """
+      Schuift de k-de rij, k posities op naar links. De rijen gaan van 0 tot 3.
+
+    :param matrix: 4x4-matrix
+    :return matrix: 4x4-matrix
+    """
     return [matrix[x][x:]+matrix[x][:x] for x in range(4)]
 
 
-### Inverse shift-rows
 def InvShiftRows(matrix):
+    """
+      Schuift de k-de rij, k posities op naar rechts. De rijen gaan van 0 tot 3.
+
+    :param matrix: 4x4-matrix
+    :return matrix: 4x4-matrix
+    """
     return [matrix[x][(4-x):]+matrix[x][:(4-x)] for x in range(4)]
 
 
-### Mix columns
 def MixColumns(matrix):
+    """
+      Deze functie vermenigvuldigt elke kolom van de matrix met een gegeven matrix.
+      De gegeven matrix: [[2,3,1,1],[1,2,3,1],[1,1,2,3],[3,1,1,2]]
+
+    :param matrix: 4x4-matrix
+    :return matrix: 4x4-matrix
+    """
     for place_x in range(4):
         column = [matrix[place_y][place_x] for place_y in range(4)]
         mixColumn(column)
@@ -117,6 +148,13 @@ def MixColumns(matrix):
     return matrix
 
 def vermenigvuldigen(x,y):
+    """
+      De modulo-vermenigvuldiging.
+
+    :param x: Getal (byte) in de kolom
+    :param y: Constantes uit de gegeven matrix (zie functie 'MixColumns')
+    :return: De gegeven byte (x) modulo-vermenigvuldigd met constante y
+    """
     if y == 1:
         return x
     elif y == 2:
@@ -128,6 +166,9 @@ def vermenigvuldigen(x,y):
         return (vermenigvuldigen(x,2) ^ x)
 
 def mixColumn(column):
+    """
+      Behoort tot de functie 'MixColumns' en maakt gebruik van de functie 'vermenigvuldigen'
+    """
     temp = [0]*len(column)
     temp[0] = vermenigvuldigen(column[0],2) ^ vermenigvuldigen(column[3],1) ^ \
               vermenigvuldigen(column[2],1) ^ vermenigvuldigen(column[1],3)
@@ -141,56 +182,48 @@ def mixColumn(column):
         column[i] = temp[i]
 
 
-### Add round key
 def AddRoundKey(matrix,key,i):
+    """
+      Telt bij elke kolom van de blok een kolom van de sleutel bij op.
+
+    :param matrix: 4x4-matrix
+    :param key: Vooraf bepaalde sleutel, bovenaan in dit bestand te vinden
+    :param i: Geeft aan welke 4x4-blok van de gehele 4x44-matrix gebruikt moet worden
+    :return matrix: De bewerkte 4x4-matrix matrix
+    """
     for row in range(4):
         for column in range(4):
             matrix[row][column] = matrix[row][column] ^ key[row][column+i*4]
     return matrix
 
 
-### Implementeer de boodschap
 def ImplementMessage(Encryption,Message):
+    """
+      Implementeer de matrix bekomen via de encryptie op de gegeven boodschap
+
+    :param Encryption: 4x4-geincrypteerde-matrix
+    :param Message: 4x4-matrix
+    """
     for row in range(4):
         for column in range(4):
             Encryption[row][column] = Encryption[row][column] ^ Message[row][column]
 
-    return Encryption
+
+def ListToBlok(List):
+    """
+      Zet een lijst van 16 elementen om in een 4x4-matrix van 16 bytes
+
+    :param List: Een lijst van 16 cijfers met waarden tussen de 0 en de 255
+    :return: 4x4-matrix
+    """
+    return [List[:4],List[4:8],List[8:12],List[12:16]]
 
 
-# Zet een lijst van 8 cijfers (0-4095) gevolgd door 4 cijfers (0-255) om naar een 4x4-matrix
-def ListToBlok(lijst):
-    List = []
-    matrix = []
-    for position in range(4):
-        first = lijst[position*2]//256
-        List.append(lijst[position*2]%256)
-
-        second = lijst[position*2+1]//256
-        List.append(first*16+second)
-        List.append(lijst[position*2+1]%256)
-
-        if len(List) > 3:
-            matrix.append(List[:4])
-            del List[:4]
-
-    for second_position in range(4):
-        List.append(lijst[8+second_position])
-
-        if len(List) > 3:
-            matrix.append(List[:4])
-            del List[:4]
-
-    return matrix
-
-
-# Zet een 4x4-matrix terug om naar een lijst van 10 cijfers: 8 cijfers (0-4095) gevolgd door 4 cijfers (0-255)
 def BlokToList(matrix):
-    result = []
-    for position in range(4):
-        result.append(matrix[(position*3)//4][(position*3)%4]+(matrix[(position*3)//4][(position*3+1)%4]//16)*256)
-        result.append(matrix[(position*3+2)//4][(position*3+2)%4]+(matrix[(position*3+1)//4][(position*3+1)%4]%16)*256)
+    """
+      Zet een 4x4-matrix terug om naar een lijst van 16 cijfers
 
-    result += [matrix[(12+i)%4][(12+i)//4] for i in range(4)]
-
-    return result
+    :param matrix: 4x4-matrix
+    :return: Een lijst van 16 cijfers
+    """
+    return [matrix[i//4][i%4] for i in range(16)]
