@@ -1,5 +1,4 @@
 import matplotlib
-matplotlib.use('TKAgg')
 import matplotlib.pyplot as plt
 f= open('datafile.txt','r')
 lines=f.readlines()

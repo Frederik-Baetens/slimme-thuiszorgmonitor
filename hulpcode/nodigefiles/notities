@@ -1,2 +1,24 @@
+#werkte op fedora
 connect: sudo rfcomm connect rfcomm0 20:16:08:16:08:03
 release: sudo rfcommm release rfcomm0 #werkt niet goed
+
+#werkt nu ook op mint, maar als het stopt met werken "1" na het mac adress toevoegen
+
+#dit werkt op mint, wss ook op fedora mss niet nodig
+
+rfcomm0 {
+    # Automatically bind the device at startup
+    bind yes;
+
+    # Bluetooth address of the device
+    device 20:16:08:16:08:03;
+
+    # RFCOMM channel for the connection
+    channel 1;
+
+    # Description of the connection
+    comment "hc-06 connection";
+}
+
+# niet zeker of dit nodig is
+in /var/lib/bluetooth/"MACADRESSVANBLUETOOTHMODULE"/ moet een file "pincodes" staan met daarin "mac adress 1234"
