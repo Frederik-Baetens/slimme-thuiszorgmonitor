@@ -54,12 +54,9 @@ lst_po = [0,]*(NB_READINGS//3)
 def REFORM_LIST(tup):
 
     return '.'.join( [str(i) for lst in tup[0] for i in lst] ) + '.' +\
-        str(tup[1]) + '.'
+        str(tup[1]) + '.' + '.'.join( [str(i) for lst in tup[2] for i in lst] ) + ':'
 
-def reform_list(tup):
-    #zet alle waarden uit een tuple: (lijst, getal, lijst)
-    #in 1 lage string, de waarden zijn gesplitst door punten met op het einde een dubbelpunt
-    return '.'.join([str(i) for i in tup[0]])  + '.' + str(tup[1]) + '.' + '.'.join([str(i) for i in tup[2]]) + ':'
+
 
 def encrypt(lst):
     print (lst)

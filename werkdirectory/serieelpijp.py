@@ -1,4 +1,4 @@
-import serial
+wimport serial
 import Decryptie
 import os
 
@@ -8,23 +8,26 @@ ser=serial.Serial('/dev/rfcomm0')
 ekgfile = os.open('ekgpipe', os.O_WRONLY)
 pofile = os.open('popipe', os.O_WRONLY)
 
+
+def string_naar_lijst(string):
+    lijst_waarden= []
+    current_number = ''
+    for i in range(len(string)):
+        if string[i] != '.' and string[i] != ':':
+            current_number += string[i]
+        else:
+            lijst_waarden.append(int(current_number))
+            current_number = ''
+
+    return lijst_waarden
+
 def dereform(string):
-    """
-    Maakt van de ontvangen vlakke string ('aaa.bbb.ccc. ... .zzz') opnieuw tupple van een lijst, een nummer en een lijst.
-    """
+    waarden = string_naar_lijst(string)
+    matrix_1 = [ [waarden[i] for i in range(4)], [waarden[i] for i in range(4, 8)], [waarden[i] for i in range(8, 12)], [waarden[i] for i in range(12, 16)] ]
+    counter = waarden[16]
+    matrix_2 = [ [waarden[i] for i in range(17, 21)], [waarden[i] for i in range(21, 25)], [waarden[i] for i in range(25, 29)], [waarden[i] for i in range(29, 33)] ]
 
-    #herwerk de string tot een lijst van afzonderlijke waarden
-    list = []
-    check_new_point = 1
-    index_last_point = -1
-    while check_new_point < len(string):
-        if string[check_new_point] == '.':
-            list.append(int(string[index_last_point + 1:check_new_point]))
-            index_last_point = check_new_point
-        check_new_point += 1
-
-    list.append(int(string[index_last_point+1:]))
-    return list[:16], list[16], list[17:]
+    return (matrix_1, counter, matrix_2)
 
 while True:
     data = str(ser.read(),'utf-8')
