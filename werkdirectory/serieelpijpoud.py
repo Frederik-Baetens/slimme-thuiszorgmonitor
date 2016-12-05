@@ -2,8 +2,8 @@ import serial, os
 
 message=''
 ser=serial.Serial('/dev/rfcomm0')
-ekgfile = os.open('/home/frederik/Documents/slimme-thuiszorgmonitor/hulpcode/nodigefiles/matlabcode/ekgpipe', os.O_WRONLY)
-pofile = os.open('/home/frederik/Documents/slimme-thuiszorgmonitor/hulpcode/nodigefiles/matlabcode/popipe', os.O_WRONLY)
+ekgfile = os.open('/home/fred/Documents/slimme-thuiszorgmonitor/hulpcode/nodigefiles/matlabcode/ekgpipe', os.O_WRONLY)
+pofile = os.open('/home/fred/Documents/slimme-thuiszorgmonitor/hulpcode/nodigefiles/matlabcode/popipe', os.O_WRONLY)
 filelijst = [ekgfile,pofile]
 position = 0
 filecounter = 0

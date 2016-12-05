@@ -75,7 +75,7 @@ def read(NB_READINGS):
 
     lst_ecg[read_counter] = ecg_pin.read()//16
     if read_counter % 3 == 0:
-        lst_po[read_counter//2] = po_pin.read()//16
+        lst_po[read_counter//3] = po_pin.read()//16
 
     if read_counter == NB_READINGS - 1:
         read_counter = 0
