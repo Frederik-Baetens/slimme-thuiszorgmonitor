@@ -28,7 +28,6 @@ pin_red_led.toggle() #moet weg
 read_counter = 0
 message = ''
 enable_reading = 0
-po_counter = 0
 encryptie_counter = 0
 
 uart = pyb.UART(4, 1382400)
