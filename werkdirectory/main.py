@@ -1,3 +1,8 @@
+#########################
+## ~~~  ECG / PO  ~~~  ##
+#########################
+
+
 ## IMPORTS ##
 import pyb, time, Encryptie
 ##### time module moet niet in het finale ding staan, aangezien deze enkel gebruikt wordt voor te testen
