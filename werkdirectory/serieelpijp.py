@@ -42,10 +42,10 @@ while True:
                 decrypted_message = Decryptie.Ontcijfering(dereformed_message)
                 message = ''
                 if decrypted_message!=None and (current_counter > last_counter):
-                    for i in range(0, 8):
+                    for i in range(0, 12):
                         print(str(decrypted_message[i]) + '\n')
                         os.write(ekgfile, str(decrypted_message[i]).encode('utf-8') + b'\n')
-                    for i in range(8, 12):
+                    for i in range(12, 16):
                         print(str(decrypted_message[i]) + '\n')
                         os.write(pofile, str(decrypted_message[i]).encode('utf-8') + b'\n')
                     last_counter = current_counter
