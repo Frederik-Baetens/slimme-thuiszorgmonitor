@@ -67,6 +67,10 @@ def read(NB_READINGS):
     lst_vooraan[read_counter] = schoen_vooraan_pin.read()//16
     lst_achteraan[read_counter] = schoen_achteraan_pin.read()//16
 
+    if read_counter == NB_READINGS - 1:
+        read_counter = 0
+    else:
+        read_counter += 1
     return
 
 
