@@ -41,7 +41,7 @@ def Ontcijfering(final_result):
     """
 
     ### Opstellen van een nul-matrix
-    zero_state = Subclasses_Encryptie.ZeroState
+    zero_state = Subclasses_Encryptie.ZeroStateDec
 
     ### Persoonlijke (geheime) sleutels
     # De sleutel voor de vercijfering van de code
@@ -62,9 +62,9 @@ def Ontcijfering(final_result):
     Tag2 = Encryption(zero_state,MAC)
     Subclasses_Encryptie.ImplementMessage(Tag2,EncryptedMessage)
     Encryption(Tag2,MAC)
+    Encryption(Tag2,MAC)
 
     ### Lees de Message
     Subclasses_Encryptie.ImplementMessage(EncryptedMessage,EncryptionState)
     if final_result[2] == Tag2:
         return Subclasses_Encryptie.BlokToList(EncryptedMessage)
-

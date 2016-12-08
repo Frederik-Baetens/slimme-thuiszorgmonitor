@@ -48,7 +48,7 @@ def Vercijfering(number,list):
     state = Subclasses_Encryptie.MakeCTR(number)
 
     ### Opstellen van de state
-    zero_state = Subclasses_Encryptie.ZeroState
+    zero_state = Subclasses_Encryptie.ZeroStateEnc
 
     ### Persoonlijke (geheime) sleutels
     # De sleutel voor de vercijfering van de code
@@ -68,6 +68,7 @@ def Vercijfering(number,list):
     ### Aanmaken van de tag
     Tag = Encryption(zero_state,MAC)
     Subclasses_Encryptie.ImplementMessage(Tag, Message)
+    Encryption(Tag,MAC)
     Encryption(Tag,MAC)
 
     ### Het geincrypteerde resultaat, inclusief counter en tag
