@@ -28,7 +28,6 @@ pin_red_led.toggle() #moet weg
 read_counter = 0
 message = ''
 enable_reading = 0
-po_counter = 0
 encryptie_counter = 0
 
 uart = pyb.UART(4, 1382400)
@@ -41,11 +40,7 @@ tim7.callback(lambda t: toggle_enable_reading())    #encrypt en reform
 sw = pyb.Switch()
 sw.callback(lambda:pyb.LED(2).toggle())
 
-tim9 = pyb.Timer(9, freq=FREQ/3)
-pwm1 = tim9.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.X3, pulse_width_percent=50)
-pwm2 = tim9.channel(2, pyb.Timer.PWM_INVERTED, pin=pyb.Pin.board.X4, pulse_width_percent=50)
-
-
+	
 lst_ecg = [0,]*NB_READINGS
 lst_po = [0,]*(NB_READINGS//3)
 
@@ -53,8 +48,8 @@ lst_po = [0,]*(NB_READINGS//3)
 ## FUNCTIES ##
 def REFORM_LIST(tup):
 
-    return '.'.join( [str(i) for lst in tup[0] for i in lst] ) + '.' +\
-        str(tup[1]) + '.' + '.'.join( [str(i) for lst in tup[2] for i in lst] ) + ':'
+	return '.'.join( [str(i) for lst in tup[0] for i in lst] ) + '.' +\
+		str(tup[1]) + '.' + '.'.join( [str(i) for lst in tup[2] for i in lst] ) + ':'
 
 
 
