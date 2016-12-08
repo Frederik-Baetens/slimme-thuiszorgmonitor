@@ -32,26 +32,26 @@ def dereform(string):
 	return (matrix_1, counter, matrix_2)
 
 while True:
-    data = str(ser.read(),'utf-8')
-    if data == ':':         #zorgt voor start met :
-        while True:
-            data = str(ser.read(),'utf-8')
-            if data != ':':
-                message += data
-            else:
-                dereformed_message = dereform(message)
-                current_counter = dereformed_message[1]
-                decrypted_message = Decryptie.Ontcijfering(dereformed_message)
-                message = ''
-                if decrypted_message!=None and (current_counter > last_counter):
-                    for i in range(0, 12):
-                        print(str(decrypted_message[i]) + '\n')
-                        os.write(ekgfile, str(decrypted_message[i]).encode('utf-8') + b'\n')
-                    for i in range(12, 16):
-                        print(str(decrypted_message[i]) + '\n')
-                        os.write(pofile, str(decrypted_message[i]).encode('utf-8') + b'\n')
-                    last_counter = current_counter
-                else:
-                    print ('PROBLEEM PROBLEEM PROBLEEM PROBLEEM')
-                    print (decrypted_message)
-                    print (current_counter, last_counter)
+	data = str(ser.read(),'utf-8')
+	if data == ':':			#zorgt voor start met :
+		while True:
+			data = str(ser.read(),'utf-8')
+			if data != ':':
+				message += data
+			else:
+				dereformed_message = dereform(message)
+				current_counter = dereformed_message[1]
+				decrypted_message = Decryptie.Ontcijfering(dereformed_message)
+				message = ''
+				if decrypted_message!=None and (current_counter > last_counter):
+					for i in range(0, 12):
+						print(str(decrypted_message[i]) + '\n')
+						os.write(ekgfile, str(decrypted_message[i]).encode('utf-8') + b'\n')
+					for i in range(12, 16):
+						print(str(decrypted_message[i]) + '\n')
+						os.write(pofile, str(decrypted_message[i]).encode('utf-8') + b'\n')
+					last_counter = current_counter
+				else:
+					print ('PROBLEEM PROBLEEM PROBLEEM PROBLEEM')
+					print (decrypted_message)
+					print (current_counter, last_counter)
