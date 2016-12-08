@@ -1,3 +1,8 @@
+#######################
+## ~~~  SCHOEN  ~~~  ##
+#######################
+
+
 ## IMPORTS ##
 import pyb, time, Encryptie
 
