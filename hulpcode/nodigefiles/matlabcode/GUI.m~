@@ -420,7 +420,7 @@ function start_button_Callback(hObject, eventdata, handles)
 button_state_start = get(hObject,'Value');
 %signal_ppg = datainlezing('ppg');
 %signal_ppg = signal_ppg(6.195E5:6.277E5);
-%signal_ecg = datainlezing('ecg');
+signal_ecg = datainlezing('ecg');
 %signal_stap = datainlezing('stp');
 
 pipeline_ecg = fopen('popipe','r')
@@ -439,7 +439,7 @@ if button_state_start
     start_point = 0;
     stop_point = (4*np)*nb_sec;
     ymin = -500;
-    ymax = 5000;
+    ymax = 500;
     max_interval = (stop_point - start_point)/np;
     axis(handles.axes_ppg, [start_point, stop_point, ymin, ymax]);
     %axes(handles.axes_ecg, [start_point, stop_point, -1.5, 1.5]);
@@ -504,7 +504,7 @@ if button_state_start
         %signal_piece_ecg = signal_ecg(begin:ending);
         %signal_piece_stap = signal_stap(begin:ending);
         
-%        inputlist_red = [inputlist_red; signal_piece_ppg];
+        inputlist_red = [inputlist_red; signal_piece_ppg];
         
 %         % BEGIN PPG
 %         
@@ -549,25 +549,25 @@ if button_state_start
         
         % EINDE ECG
         
-%         % BEGIN STAPPENTELLER
-%         inputlist_stap = [inputlist_stap;signal_piece_stap];
-% 
-%         [stap_searchinterval, start_sample] = STAP_GetSearchInterval(inputlist_stap, threshold);
-%         [to_be_added, samplenumber] = stappenteller(stap_searchinterval, start_sample, prev_sample);
-% 
-%         if to_be_added
-%             
-%             steplist = [steplist samplenumber];
-%             nb_steps = nb_steps + 1;
-%             graphstappenteller(handles, max_stappen, nb_steps);
-%             drawnow;
-%         end
-%         
-%         prev_sample = samplenumber;
-%         
-%         % EINDE STAPPENTELLER
-%         
-        creategraph(signal_piece_ecg,interval_points,nb_interval,handles.axes_ppg, lh, lb, margin, handles);
+        % BEGIN STAPPENTELLER
+        inputlist_stap = [inputlist_stap;signal_piece_stap];
+
+        [stap_searchinterval, start_sample] = STAP_GetSearchInterval(inputlist_stap, threshold);
+        [to_be_added, samplenumber] = stappenteller(stap_searchinterval, start_sample, prev_sample);
+
+        if to_be_added
+            
+            steplist = [steplist samplenumber];
+            nb_steps = nb_steps + 1;
+            graphstappenteller(handles, max_stappen, nb_steps);
+            drawnow;
+        end
+        
+        prev_sample = samplenumber;
+        
+        % EINDE STAPPENTELLER
+        
+        creategraph(signal_piece_ppg,interval_points,nb_interval,handles.axes_ppg, lh, lb, margin, handles);
         
         turn = turn + 1;
     end

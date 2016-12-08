@@ -16,6 +16,7 @@ def string_naar_lijst(string):
 		if string[i] != '.' and string[i] != ':':
 			current_number += string[i]
 		else:
+			print ("current number: "+current_number)
 			lijst_waarden.append(int(current_number))
 			current_number = ''
 
@@ -39,6 +40,8 @@ while True:
 			if data != ':':
 				message += data
 			else:
+				message += data
+				print (message)
 				dereformed_message = dereform(message)
 				current_counter = dereformed_message[1]
 				decrypted_message = Decryptie.Ontcijfering(dereformed_message)

@@ -8,6 +8,7 @@ filelijst = [ekgfile,pofile]
 position = 0
 filecounter = 0
 
+
 while True:
 	data = str(ser.read(),'utf-8')
 	if data == ':':

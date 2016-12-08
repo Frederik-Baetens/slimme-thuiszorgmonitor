@@ -6,7 +6,7 @@ xste_keer_doorlopen = 0;
 vier_laatste_pieken = [];
 tijdstip_laatste_piek = -10;
 
-g = fopen('ekgpipe','r')
+g = fopen('popipe','r')
 
 while xste_keer_doorlopen ~= 20312
     
