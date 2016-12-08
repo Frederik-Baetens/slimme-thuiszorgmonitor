@@ -67,3 +67,4 @@ def Ontcijfering(final_result):
     Subclasses_Encryptie.ImplementMessage(EncryptedMessage,EncryptionState)
     if final_result[2] == Tag2:
         return Subclasses_Encryptie.BlokToList(EncryptedMessage)
+

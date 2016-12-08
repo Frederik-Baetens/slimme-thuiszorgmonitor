@@ -58,7 +58,9 @@ def encrypt(lst):
 	print (lst)
 	global encryptie_counter
 	encryptie_counter += 1
+	print ('encounter', encryptie_counter)
 	enclst = Encryptie.Vercijfering(encryptie_counter,lst)
+	print (enclst)
 	global message
 	message = REFORM_LIST(enclst)
 	return
