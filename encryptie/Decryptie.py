@@ -41,7 +41,10 @@ def Ontcijfering(final_result):
     """
 
     ### Opstellen van een nul-matrix
-    zero_state = Subclasses_Encryptie.ZeroStateDec
+    zero_state = [[0,0,0,0],
+                  [0,0,0,0],
+                  [0,0,0,0],
+                  [0,0,0,0]]
 
     ### Persoonlijke (geheime) sleutels
     # De sleutel voor de vercijfering van de code

@@ -48,7 +48,10 @@ def Vercijfering(number,list):
     state = Subclasses_Encryptie.MakeCTR(number)
 
     ### Opstellen van de state
-    zero_state = Subclasses_Encryptie.ZeroStateEnc
+    zero_state = [[0,0,0,0],
+                  [0,0,0,0],
+                  [0,0,0,0],
+                  [0,0,0,0]]
 
     ### Persoonlijke (geheime) sleutels
     # De sleutel voor de vercijfering van de code
