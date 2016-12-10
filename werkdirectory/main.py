@@ -61,9 +61,9 @@ def encrypt(lst):
 	print (lst)
 	global encryptie_counter
 	encryptie_counter += 1
-	print ('encounter', encryptie_counter)
+	#print ('encounter', encryptie_counter)
 	enclst = Encryptie.Vercijfering(encryptie_counter,lst)
-	print (enclst)
+	#print (enclst)
 	global message
 	message = reform_list(enclst)
 	return
@@ -84,6 +84,7 @@ def read(NB_READINGS):
 def toggle_enable_reading():
 	global enable_reading
 	enable_reading = 1
+	return
 
 def switch_leds(): #moet weg
 	pin_red_led.toggle()
@@ -94,7 +95,7 @@ def timer():
 	start = time.ticks_us()
 	#reform_list(([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]],15,[[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]]))
 	#Encryptie.Vercijfering(12,[255,255,1,0,255,110,211,0,0,255,144,255,0,5,10,240])
-	read(NB_READINGS)
+	#read(NB_READINGS)
 	#encrypt([255,255,1,0,255,110,211,0,0,255,144,255,0,5,10,240])
 	return time.ticks_diff(time.ticks_us(),start)
 
