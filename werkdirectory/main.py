@@ -4,8 +4,7 @@
 
 
 ## IMPORTS ##
-import pyb, time, Encryptie
-##### time module moet niet in het finale ding staan, aangezien deze enkel gebruikt wordt voor te testen
+import pyb, Encryptie
 
 
 ## CONSTANTEN ##
@@ -92,12 +91,12 @@ def switch_leds(): #moet weg
 	return
 
 def timer():
-	start = time.ticks_us()
+	start = pyb.micros()
 	#reform_list(([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]],15,[[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]]))
 	#Encryptie.Vercijfering(12,[255,255,1,0,255,110,211,0,0,255,144,255,0,5,10,240])
 	#read(NB_READINGS)
 	#encrypt([255,255,1,0,255,110,211,0,0,255,144,255,0,5,10,240])
-	return time.ticks_diff(time.ticks_us(),start)
+	return pyb.elapsed_micros(start)
 
 
 ##LOOP##
