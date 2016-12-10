@@ -9,9 +9,9 @@ import pyb, time, Encryptie
 
 
 ## CONSTANTEN ##
-FREQ = 120				#frequentie waaraan gemeten wordt
-NB_READINGS = 12
-NB_SENSORS = 2
+FREQ = const(120)				#frequentie waaraan gemeten wordt
+NB_READINGS = const(12)
+NB_SENSORS = const(2)
 
 ## PIN-NUMMERS ##
 PO_PIN_NB = 'X19'			#nummer van de pulse-oximeter pin
@@ -94,8 +94,8 @@ def timer():
 	start = time.ticks_us()
 	#reform_list(([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]],15,[[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]]))
 	#Encryptie.Vercijfering(12,[255,255,1,0,255,110,211,0,0,255,144,255,0,5,10,240])
-	#read(NB_READINGS)
-	encrypt([255,255,1,0,255,110,211,0,0,255,144,255,0,5,10,240])
+	read(NB_READINGS)
+	#encrypt([255,255,1,0,255,110,211,0,0,255,144,255,0,5,10,240])
 	return time.ticks_diff(time.ticks_us(),start)
 
 
