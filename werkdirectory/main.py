@@ -52,12 +52,10 @@ lst_po = [0,]*(NB_READINGS//3)
 
 
 ## FUNCTIES ##
-def REFORM_LIST(tup):
 
+def reform_list(tup):
 	return '.'.join( [str(i) for lst in tup[0] for i in lst] ) + '.' +\
 		str(tup[1]) + '.' + '.'.join( [str(i) for lst in tup[2] for i in lst] ) + ':'
-
-
 
 def encrypt(lst):
 	print (lst)
@@ -67,7 +65,7 @@ def encrypt(lst):
 	enclst = Encryptie.Vercijfering(encryptie_counter,lst)
 	print (enclst)
 	global message
-	message = REFORM_LIST(enclst)
+	message = reform_list(enclst)
 	return
 
 def read(NB_READINGS):
@@ -83,6 +81,10 @@ def read(NB_READINGS):
 		read_counter += 1
 	return
 
+def toggle_enable_reading():
+	global enable_reading
+	enable_reading = 1
+
 def switch_leds(): #moet weg
 	pin_red_led.toggle()
 	pin_infrared_led.toggle()
@@ -90,14 +92,12 @@ def switch_leds(): #moet weg
 
 def timer():
 	start = time.ticks_us()
-	#REFORM_LIST(([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]],15,[[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]]))
-	Encryptie.Vercijfering(12,[255,255,1,0,255,110,211,0,0,255,144,255,0,5,10,240])
+	#reform_list(([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]],15,[[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]]))
+	#Encryptie.Vercijfering(12,[255,255,1,0,255,110,211,0,0,255,144,255,0,5,10,240])
 	#read(NB_READINGS)
+	encrypt([255,255,1,0,255,110,211,0,0,255,144,255,0,5,10,240])
 	return time.ticks_diff(time.ticks_us(),start)
 
-def toggle_enable_reading():
-	global enable_reading
-	enable_reading = 1
 
 ##LOOP##
 # alles wat het bordje moet weten: functies variabelen etc moet hiervoor
