@@ -11,3 +11,8 @@ def switch_pins():
         pin.value(1)
     else:
         pin.value(0)
+
+#gewoon achter lezen van po:
+
+pin_red_led.value(not pin_red_led.value())
+pin_infrared_led.value(not pin_infrared_led.value())
