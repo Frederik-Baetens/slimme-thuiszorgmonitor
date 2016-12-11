@@ -31,7 +31,8 @@ infrared_led = pyb.LED(4)
 
 
 ## INITIALISATIE ##
-red_led.toggle()
+red_led.on()
+infrared_led.off()
 
 read_counter = 0
 message = ''

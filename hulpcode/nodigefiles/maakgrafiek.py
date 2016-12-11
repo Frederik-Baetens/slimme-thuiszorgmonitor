@@ -1,9 +1,9 @@
 import matplotlib
 import matplotlib.pyplot as plt
 f= open('datafile.txt','r')
-lines=f.readlines()
+lines1=f.readlines()
 f.close()
-lines2=[eval(i)//16 for i in lines]
+lines2=[eval(i)//16 for i in lines1]
 
-plt.plot(lines)
+plt.plot(lines1)
 plt.show()
