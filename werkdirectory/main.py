@@ -22,13 +22,16 @@ PIN_INFRARED_LED_NB = 'X4'	#nummer van de infrarode led pin
 ## PINNEN AANMAKEN ##
 po_pin = pyb.ADC(PO_PIN_NB)
 ecg_pin = pyb.ADC(ECG_PIN_NB)
+pin_red_led = pyb.Pin(PIN_RED_LED_NB, pyb.Pin.OUT_PP)
+pin_infrared_led = pyb.Pin(PIN_INFRARED_LED_NB, pyb.Pin.OUT_PP)
 
-pin_red_led = pyb.LED(3)		#moet weg, wordt nu met pwm gedaan
-pin_infrared_led = pyb.LED(4)	#voorlopig nog om leds te laten branden
+## LEDS AANMAKEN ##
+red_led = pyb.LED(3)	
+infrared_led = pyb.LED(4)	
 
 
 ## INITIALISATIE ##
-pin_red_led.toggle() #moet weg
+red_led.toggle()
 
 read_counter = 0
 message = ''
@@ -76,6 +79,9 @@ def read(NB_READINGS):
 
 	if read_counter == NB_READINGS - 1:
 		read_counter = 0
+		#voor test:
+		pin_red_led.value(not pin_red_led.value())
+		pin_infrared_led.value(not pin_infrared_led.value())
 	else:
 		read_counter += 1
 	return
@@ -86,8 +92,8 @@ def toggle_enable_reading():
 	return
 
 def switch_leds(): #moet weg
-	pin_red_led.toggle()
-	pin_infrared_led.toggle()
+	red_led.toggle()
+	infrared_led.toggle()
 	return
 
 def timer():
