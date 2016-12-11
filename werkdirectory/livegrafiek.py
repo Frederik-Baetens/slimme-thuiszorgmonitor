@@ -12,13 +12,15 @@ ylist = []
 line, = ax.plot(xlist, ylist)
 
 def animate(i):
-	line.set_ydata(update())
-	xlist.append(i)
+	line.set_ydata(update()[0])
+	line.set_xdata(update()[1])
+	ylist.append(update(i)[0])
+	xlist.append(update(i)[1])
 	return line,
 
-def update():
+def update(i):
 	data = (datafile.readline()).rstrip('\n')
-	return data
+	return data, i
 
 def init():
 	line.set_ydata(np.ma.array(xlist, mask=True))
