@@ -12,8 +12,8 @@ ylist = []
 line, = ax.plot(xlist, ylist)
 
 def animate(i):
-	line.set_ydata(update()[0])
-	line.set_xdata(update()[1])
+	line.set_ydata(update(i)[0])
+	line.set_xdata(update(i)[1])
 	ylist.append(update(i)[0])
 	xlist.append(update(i)[1])
 	return line,
