@@ -6,11 +6,24 @@ datafile = open('ekgpipe','r')
 
 fig, ax = plt.subplots()
 
-xlist = []
-ylist = []
 
-line, = ax.plot(xlist, ylist)
+def update(data):
+	line.set_ydata(data)
+	return line,
 
+def data_gen():
+	return read_data()
+
+def read_data():
+	return eval((datafile.readline()).rstrip('\n'))
+
+line, = ax.plot(lees_data())
+ax.set_ylim(0,256)
+
+ani = animation.FuncAnimation(fig,update,data_gen,interval=1)
+plt.show()
+
+"""
 def animate(i):
 	line.set_ydata(update(i)[0])
 	line.set_xdata(update(i)[1])
@@ -18,9 +31,9 @@ def animate(i):
 	xlist.append(update(i)[1])
 	return line,
 
-def update(i):
+def update():
 	data = (datafile.readline()).rstrip('\n')
-	return data, i
+	return data
 
 def init():
 	line.set_ydata(np.ma.array(xlist, mask=True))
@@ -29,6 +42,7 @@ def init():
 ani = animation.FuncAnimation(fig, animate, init_func=init, interval = 100)
 
 plt.show()
+"""
 
 """
 #plotting
