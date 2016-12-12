@@ -8,7 +8,7 @@ import pyb, time, Encryptie
 
 
 ## CONSTANTEN ##
-FREQ = 100                           #frequentie waaraan gemeten wordt
+FREQ = 64                           #frequentie waaraan gemeten wordt
 NB_READINGS = 8
 NB_SENSORS = 2
 
