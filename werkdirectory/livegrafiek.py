@@ -1,10 +1,16 @@
-import matplotlib, os
+import matplotlib, os, collections
+matplotlib.use('GTKAgg')
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import numpy as np
-datafile = open('ekgpipe','r')
+
+datafile = open('popipe','r')
+
+ylst = collections.deque([0]*600,600)
 
 fig, ax = plt.subplots()
+line, = ax.plot([0,]*600)
+ax.set_ylim(0,4096)
+
 
 
 def update(data):
@@ -12,15 +18,12 @@ def update(data):
 	return line,
 
 def data_gen():
-	return read_data()
+	while True:
+		ylst.append(eval((datafile.readline()).rstrip('\n')))
+		yield ylst
 
-def read_data():
-	return eval((datafile.readline()).rstrip('\n'))
 
-line, = ax.plot(lees_data())
-ax.set_ylim(0,256)
-
-ani = animation.FuncAnimation(fig,update,data_gen,interval=1)
+ani = animation.FuncAnimation(fig,update,data_gen,interval=0, blit=True)
 plt.show()
 
 """
