@@ -1,15 +1,17 @@
 import matplotlib, os, collections
-matplotlib.use('GTKAgg')
+matplotlib.use('QT4AGG')
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+datafile = open('ekgpipe','r')
 
-datafile = open('popipe','r')
+NB=600
+MAX=256
 
-ylst = collections.deque([0]*600,600)
+ylst = collections.deque([0]*NB,NB)
 
 fig, ax = plt.subplots()
-line, = ax.plot([0,]*600)
-ax.set_ylim(0,4096)
+line, = ax.plot([0,]*NB)
+ax.set_ylim(0,MAX)
 
 
 
