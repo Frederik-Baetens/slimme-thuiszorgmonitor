@@ -2,7 +2,7 @@ import matplotlib, os, collections
 matplotlib.use('QT4AGG')
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-datafile = open('ekgpipe','r')
+datafile = open('popipe','r')
 
 NB=600
 MAX=256

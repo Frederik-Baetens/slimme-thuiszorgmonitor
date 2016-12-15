@@ -36,7 +36,7 @@ infrared_led.off()
 
 read_counter = 0
 message = ''
-enable_reading = 0
+enable_encryption = 0
 encryptie_counter = 0
 
 uart = pyb.UART(4, 1382400)
@@ -45,7 +45,7 @@ tim1.callback(lambda t: read(NB_READINGS))			#lezen
 tim2 = pyb.Timer(2, freq = FREQ/NB_READINGS)
 tim2.callback(lambda t: uart.write(message))		#versturen
 tim7 = pyb.Timer(7, freq = FREQ/(NB_READINGS))	  
-tim7.callback(lambda t: toggle_enable_reading())	#encrypt en reform
+tim7.callback(lambda t: toggle_enable_encryption())	#encrypt en reform
 sw = pyb.Switch()
 sw.callback(lambda:pyb.LED(2).toggle())
 
@@ -80,16 +80,16 @@ def read(NB_READINGS):
 
 	if read_counter == NB_READINGS - 1:
 		read_counter = 0
-		#voor test:
+		#leds flikkeren om te laten weten dat er gelezen wordt
 		pin_red_led.value(not pin_red_led.value())
 		pin_infrared_led.value(not pin_infrared_led.value())
 	else:
 		read_counter += 1
 	return
 
-def toggle_enable_reading():
-	global enable_reading
-	enable_reading = 1
+def toggle_enable_encryption():
+	global enable_encryption
+	enable_encryption = 1
 	return
 
 def switch_leds(): #moet weg
@@ -110,7 +110,7 @@ def timer():
 # alles wat het bordje moet weten: functies variabelen etc moet hiervoor
 # wat hierna komt wordt nooit geevalueerd.
 while True:
-	if enable_reading and read_counter == NB_READINGS-1 and pyb.Pin('A14').value() == 1:
-		enable_reading = 0
+	if enable_encryption and read_counter == NB_READINGS-1 and pyb.Pin('A14').value() == 1:
+		enable_encryption = 0
 		encrypt(lst_ecg + lst_po)
 		switch_leds()

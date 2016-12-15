@@ -20,13 +20,13 @@ SCHOEN_ACHTERAAN_NB = 'X20'         #nummer van de druksensor in de schoen achte
 
 ## PINNEN AANMAKEN ##
 schoen_vooraan_pin = pyb.ADC(SCHOEN_VOORAAN_NB)
-schien_achteraan_pin = pyb.ADC(SCHOEN_ACHTERAAN_NB)
+schoen_achteraan_pin = pyb.ADC(SCHOEN_ACHTERAAN_NB)
 
 
 ## INITIALISATIE ##
 read_counter = 0
 message = ''
-enable_reading = 0
+enable_encryption = 0
 po_counter = 0
 encryptie_counter = 0
 
@@ -36,7 +36,7 @@ tim1.callback(lambda t: read(NB_READINGS))          #lezen
 tim2 = pyb.Timer(2, freq = FREQ/NB_READINGS)
 tim2.callback(lambda t: uart.write(message))        #versturen
 tim7 = pyb.Timer(7, freq = FREQ/(NB_READINGS))    
-tim7.callback(lambda t: toggle_enable_reading())    #encrypt en reform
+tim7.callback(lambda t: toggle_enable_encryption())    #encrypt en reform
 sw = pyb.Switch()
 sw.callback(lambda:pyb.LED(2).toggle())
 
@@ -74,17 +74,17 @@ def read(NB_READINGS):
     return
 
 
-def toggle_enable_reading():
-    global enable_reading
-    enable_reading = 1
+def toggle_enable_encryption():
+    global enable_encryption
+    enable_encryption = 1
 
 
 ##LOOP##
 # alles wat het bordje moet weten: functies variabelen etc moet hiervoor
 # wat hierna komt wordt nooit geevalueerd.
 while True:
-    if enable_reading and read_counter == NB_READINGS-1 and pyb.Pin('A14').value() == 1:
-        enable_reading = 0
+    if enable_encryption and read_counter == NB_READINGS-1 and pyb.Pin('A14').value() == 1:
+        enable_encryption = 0
         encrypt(lst_vooraan + lst_achteraan)
  
 

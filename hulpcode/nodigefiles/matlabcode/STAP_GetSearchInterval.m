@@ -9,7 +9,7 @@ function [STAP_SearchInterval, StartSample] = STAP_GetSearchInterval(InputList,T
 % constants
 HighestFreq = 3;
 FilterOrder = 3;
-SampleRate = 128;
+SampleRate = 32;
 StartSampleNb = 0;
 
 if length(InputList) > 400
