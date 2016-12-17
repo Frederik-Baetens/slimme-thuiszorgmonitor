@@ -1,7 +1,6 @@
 import Subclasses_Encryptie
 
-
-def Encryption(matrix,key):
+def Encryption(matrix, key):
     """
       Opeenvolgende bewerkingen toegepast op een 4x4-matrix.
       De functies van deze bewerkingen zijn terug te vinden in de functieklas 'Subclasses_Encryptie'.
@@ -12,7 +11,7 @@ def Encryption(matrix,key):
 
     ### Eerste fase
     i = 0
-    Subclasses_Encryptie.AddRoundKey(matrix,key,i)
+    Subclasses_Encryptie.AddRoundKey(matrix, key, i)
 
     ### Tweede fase
     for phase in range(9):
@@ -20,18 +19,18 @@ def Encryption(matrix,key):
         Subclasses_Encryptie.SubBytes(matrix)
         Subclasses_Encryptie.ShiftRows(matrix)
         Subclasses_Encryptie.MixColumns(matrix)
-        Subclasses_Encryptie.AddRoundKey(matrix,key,i)
+        Subclasses_Encryptie.AddRoundKey(matrix, key, i)
 
     ### Derde fase
     i += 1
     Subclasses_Encryptie.SubBytes(matrix)
     Subclasses_Encryptie.ShiftRows(matrix)
-    Subclasses_Encryptie.AddRoundKey(matrix,key,i)
+    Subclasses_Encryptie.AddRoundKey(matrix, key, i)
 
     return matrix
 
 
-def Vercijfering(number,list):
+def Vercijfering(number, list):
     """
       De vercijfering van een gegeven lijst.
       De vercijfering maakt gebruik van AES-128 (zie functie 'Encryption').
@@ -48,10 +47,10 @@ def Vercijfering(number,list):
     state = Subclasses_Encryptie.MakeCTR(number)
 
     ### Opstellen van de state
-    zero_state = [[0,0,0,0],
-                  [0,0,0,0],
-                  [0,0,0,0],
-                  [0,0,0,0]]
+    zero_state = [[0, 0, 0, 0],
+                  [0, 0, 0, 0],
+                  [0, 0, 0, 0],
+                  [0, 0, 0, 0]]
 
     ### Persoonlijke (geheime) sleutels
     # De sleutel voor de vercijfering van de code
@@ -63,16 +62,16 @@ def Vercijfering(number,list):
     ### ENCRYPTIE ###
 
     ### Opstelling van de encryptie
-    EncryptionState = Encryption(state,Key)
+    EncryptionState = Encryption(state, Key)
 
     ### Implementatie van de boodschap
-    Subclasses_Encryptie.ImplementMessage(Message,EncryptionState)
+    Subclasses_Encryptie.ImplementMessage(Message, EncryptionState)
 
     ### Aanmaken van de tag
-    Tag = Encryption(zero_state,MAC)
+    Tag = Encryption(zero_state, MAC)
     Subclasses_Encryptie.ImplementMessage(Tag, Message)
-    Encryption(Tag,MAC)
-    Encryption(Tag,MAC)
+    Encryption(Tag, MAC)
 
     ### Het geincrypteerde resultaat, inclusief counter en tag
-    return (Message,number,Tag)
+    return Message, number, Tag
+
