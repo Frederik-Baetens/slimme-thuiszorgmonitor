@@ -169,7 +169,7 @@ def vermenigvuldigen(x, y):
         if x >= 128:
             return ((x << 1) % 256) ^ 0x1b
         else:
-            return  (x << 1) % 256
+            return (x << 1) % 256
     else:
         return vermenigvuldigen(x, 2) ^ x
 
