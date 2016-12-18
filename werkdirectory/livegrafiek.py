@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 datafile = open('ekgpipe','r')
 
-NB=600
+NB=1000
 MAX=256
 
 ylst = collections.deque([0]*NB,NB)
@@ -21,6 +21,8 @@ def update(data):
 
 def data_gen():
         while True:
+                ylst.append(eval((datafile.readline()).rstrip('\n')))
+                ylst.append(eval((datafile.readline()).rstrip('\n')))
                 ylst.append(eval((datafile.readline()).rstrip('\n')))
                 ylst.append(eval((datafile.readline()).rstrip('\n')))
                 yield ylst
