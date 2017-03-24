@@ -1,69 +1,44 @@
-import matplotlib, os, collections
-matplotlib.use('QT4AGG')
+import matplotlib
+import collections
+#selecting the right backend, change qt4agg to your desired backend
+matplotlib.use('qt4agg')
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-datafile = open('ekgpipe','r')
 
-NB=600
-MAX=256
+#command to open the pipe
+datapipe = open('ekgpipe','r')
 
-ylst = collections.deque([0]*NB,NB)
+#amount of data to be displayed at once, this is the size of the x axis
+#increasing this amount also makes plotting slightly slower
+data_amount = 1000
 
+#set the size of the deque object
+datalist = collections.deque([0]*data_amount,data_amount)
+
+#configure the graph itself
 fig, ax = plt.subplots()
-line, = ax.plot([0,]*NB)
-ax.set_ylim(0,MAX)
+line, = ax.plot([0,]*data_amount)
 
-
+#size of the y axis is set here
+ax.set_ylim(0,256)
 
 def update(data):
-	line.set_ydata(data)
-	return line,
+        line.set_ydata(data)
+        return line,
 
 def data_gen():
-	while True:
-		ylst.append(eval((datafile.readline()).rstrip('\n')))
-		yield ylst
-
+    while True:
+        """
+        We read two data points in at once, to improve speed
+        You can read more at once to increase speed
+        Or you can read just one at a time for improved animation smoothness
+        data from the pipe comes in as a string,
+        and is seperated with a newline character,
+        which is why we use respectively eval and rstrip.
+        """
+        datalist.append(eval((datapipe.readline()).rstrip('\n')))
+        datalist.append(eval((datapipe.readline()).rstrip('\n')))
+        yield datalist
 
 ani = animation.FuncAnimation(fig,update,data_gen,interval=0, blit=True)
 plt.show()
-
-"""
-def animate(i):
-	line.set_ydata(update(i)[0])
-	line.set_xdata(update(i)[1])
-	ylist.append(update(i)[0])
-	xlist.append(update(i)[1])
-	return line,
-
-def update():
-	data = (datafile.readline()).rstrip('\n')
-	return data
-
-def init():
-	line.set_ydata(np.ma.array(xlist, mask=True))
-	return line
-
-ani = animation.FuncAnimation(fig, animate, init_func=init, interval = 100)
-
-plt.show()
-"""
-
-"""
-#plotting
-fig = plt.figure()
-ax = plt.axes(xlim=(0,600), ylim=(0,256))
-anim = animation.FuncAnimation(fig, update, fargs=None, interval=100)
-plt.show()
-"""
-
-"""
-while True:
-	xlst.append(i)
-	i+=1
-
-	datalst.append((datafile.readline()).rstrip('\n'))
-	
-	plt.plot(xlst,datalst)
-	plt.pause(0.005)
-"""
